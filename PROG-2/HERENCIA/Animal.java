@@ -2,6 +2,7 @@
 * 17/08/23 - HERENCIA (POO)
 * */
 public class Animal {
+    protected String name;
     protected String picture;
     protected String food;
     protected String hunger;
@@ -13,6 +14,11 @@ public class Animal {
     }
 
     // METHODS
+
+    public String getName() {
+        return name;
+    }
+
     public void makeNoise(){
         System.out.println("*Ruido*");
     }
