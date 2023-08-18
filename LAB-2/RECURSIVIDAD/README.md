@@ -20,6 +20,8 @@ sucesivas. Implementa ambos enfoques en la misma clase, utilizando la
 sobrecarga de métodos para diferenciarlos. Luego, realiza pruebas 
 utilizando distintos pares de números.
 
+![Ejer1](https://github.com/louisrubin/UTN2/assets/72027738/9f03ebd6-88d2-46d2-b560-4637f8eb09c0)
+
 ### 📝 Programa 2: Sumatoria Recursiva
 
 
@@ -28,6 +30,8 @@ Escribe un programa que calcule la sumatoria de los números enteros desde
 funcionalidad en una clase separada. Asegúrate de probar la función con 
 diferentes valores de entrada.
 
+![Ejer2](https://github.com/louisrubin/UTN2/assets/72027738/e7f4403a-a63d-4e0e-8cb2-c31fb5e3a760)
+
 ### 📝 Programa 3: Factorial con Sobrecarga (Recursión e Iteración)
 
 Crea un programa que calcule el factorial de un número utilizando dos 
@@ -35,6 +39,8 @@ métodos diferentes: uno utilizando recursión y otro utilizando iteración.
 Estos métodos deben estar en una clase distinta. Emplea la sobrecarga de 
 métodos para diferenciar entre las dos implementaciones. Realiza pruebas 
 del programa con distintos números enteros.
+
+![Ejer3](https://github.com/louisrubin/UTN2/assets/72027738/afac322f-2eb4-483f-ba3d-d603c9416e50)
 
 ---
 
