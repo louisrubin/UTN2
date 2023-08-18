@@ -1,7 +1,6 @@
 # Desarrollo de Programas en con Recursión e Iteración
 
-###### 100 puntos.
-Fecha de entrega: 20 ago, 2023
+###### 100 puntos. Fecha de entrega: 20 ago, 2023
 ---
 
 **Instrucciones:** En esta tarea, deberás desarrollar tres programas en 
