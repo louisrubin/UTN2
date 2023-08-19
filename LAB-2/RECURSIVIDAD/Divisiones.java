@@ -9,7 +9,7 @@ realiza pruebas utilizando distintos pares de números.
 * */
 public class Divisiones {
     public static int division(int dividendo, int divisor){
-        System.out.println("int");
+        System.out.println("iteración\n"+ dividendo + "/" + divisor);
         int cociente=0;
         while (divisor <= dividendo){
             dividendo -= divisor;
@@ -22,22 +22,23 @@ public class Divisiones {
 
 
     public static double division(double dividendo, double divisor){
-        System.out.println("double");
-        double cociente=0;
-        while (divisor <= dividendo){
-            dividendo -= divisor;
-            cociente++;
+        int cocient = 0;
+        if(dividendo < divisor){
+            return cocient;
         }
-        System.out.println("Cociente: "+cociente);
-        System.out.println("Resto: "+dividendo);
-        return cociente;
-    }
+        cocient++;
+        return cocient + division(dividendo - divisor, divisor);
 
+        // improvisando logré que funcione XD porque andaba pero me tiraba el resto y no el cociente
+    }
 
     // MAIN
     public static void main(String[] args) {
+        int div = 7504, div2 = 12;
+
         division(7504,12);
         System.out.println("------------------");
-        division(7504.0,12.0);
+        System.out.println("recursión\n"+div + "/"+div2);
+        System.out.println("=> " +division(Integer.toUnsignedLong(div), Integer.toUnsignedLong(div2)));
     }
 }

@@ -20,7 +20,7 @@ sucesivas. Implementa ambos enfoques en la misma clase, utilizando la
 sobrecarga de métodos para diferenciarlos. Luego, realiza pruebas 
 utilizando distintos pares de números.
 
-![Ejer1](https://github.com/louisrubin/UTN2/assets/72027738/9f03ebd6-88d2-46d2-b560-4637f8eb09c0)
+![ejer1](https://github.com/louisrubin/UTN2/assets/72027738/08e29e83-4be2-4d03-9e7e-69d6124e1460)
 
 ### 📝 Programa 2: Sumatoria Recursiva
 
