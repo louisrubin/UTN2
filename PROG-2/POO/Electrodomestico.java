@@ -26,7 +26,7 @@ public class Electrodomestico {
         color = this.listaColores[0];
         consumoEnerg = this.listConsumoEnerg[5];
     }
-    public Electrodomestico(double precioBase, String color, char consumoEnerg, double peso){
+    public Electrodomestico(double precioBase, char consumoEnerg, double peso, String color){
         this();
         this.precioBase= precioBase;
         this.color = ( this.comprobarColor(color) ? color : this.listaColores[0] );
@@ -84,6 +84,7 @@ public class Electrodomestico {
         return ret;
     }
     public double precioFinal(){
+        // según el consumo energético, aumentara su precio, y según su tamaño, también
         // si encuentra la letra devuelve la posicion SIGUIENTE convertido a entero
         String[] letraPrecio = {"A", "100", "B", "80", "C", "60", "D", "50",
                                 "E", "30", "F", "10"};
@@ -115,10 +116,5 @@ public class Electrodomestico {
     public String toString() {
         return "[id=" + this.id +  ",precioBase=$"+this.precioBase + ",color="
                 + this.color+",consumo=" + this.consumoEnerg + ",peso=" + this.peso + "]" ;
-    }
-
-    public static void main(String[] args) {
-        Electrodomestico e = new Lavarropas(50);
-        System.out.println(e.toString());
     }
 }

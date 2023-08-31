@@ -4,27 +4,19 @@ class Lavarropas extends Electrodomestico {
     private double carga = 5;
 
     public Lavarropas(){
+        super();    // llama al contructor por defecto del padre
     }
     public Lavarropas(double precio, double peso){
-        this.precioBase = precio;
-        this.peso = peso;
+        super(precio, peso);    // constructor del padre con esos parametros
     }
 
     public Lavarropas(double carga){
-        this.id = super.id;
+        super();    // llama al contructor por defecto del padre
         this.carga = carga;
-        this.precioBase = super.precioBase;
-        this.consumoEnerg = super.consumoEnerg;
-        this.peso = super.peso;
-        this.color = super.color;
     }
-    public Lavarropas(double carga, double precioBase, char consumoEnerg, String color){
-        this.id = super.id;
+    public Lavarropas(double carga, double precioBase, double peso, char consumoEnerg, String color){
+        super(precioBase, consumoEnerg, peso, color);    // llama al contructor con todos esos parametros
         this.carga = carga;
-        this.precioBase = precioBase;
-        this.consumoEnerg = ( super.comprobarConsumoEnergetico(consumoEnerg)) ? Character.toUpperCase(consumoEnerg) : super.getListConsumoEnerg()[5] ;
-        this.peso = super.peso;
-        this.color = (super.comprobarColor(color)) ? color : super.getListaColores()[0];
     }
 
     @Override
@@ -35,11 +27,12 @@ class Lavarropas extends Electrodomestico {
     }
 
     public double getCarga() {
-        return carga;
+        return this.carga;
     }
 
     @Override
     public double precioFinal() {
+        // si tiene una carga mayor de 30 kg, aumentará el precio $50 , sino es así, queda el mismo precio
         if(this.carga > 30){
             System.out.print(50.0 + " + ");
             return super.precioFinal() + 50;
@@ -48,12 +41,15 @@ class Lavarropas extends Electrodomestico {
             return super.precioFinal();
         }
     }
-
+/*
     public static void main(String[] args) {
-        Lavarropas a = new Lavarropas(20, 350, 'e', "rojo");
-        Lavarropas a2 = new Lavarropas(50);
+        Lavarropas a = new Lavarropas(20, 350, 15 , 'e', "rojo");
+        Lavarropas a2 = new Lavarropas();
+        Lavarropas a3 = new Lavarropas(400, 12.5);
+
         System.out.println(a.toString());
         System.out.println(a2.toString());
+        System.out.println(a3.toString());
     }
-    // hacer que la asignacion de consumo se ponga en mayuscula ya en la clase PADRE
+*/
 }
