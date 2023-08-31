@@ -115,6 +115,6 @@ public class Electrodomestico {
     @Override
     public String toString() {
         return "[id=" + this.id +  ",precioBase=$"+this.precioBase + ",color="
-                + this.color+",consumo=" + this.consumoEnerg + ",peso=" + this.peso + "]" ;
+                + this.color+",consumo=" + this.consumoEnerg + ",precioFinal=$" + precioFinal() + ",peso=" + this.peso + "]" ;
     }
 }
