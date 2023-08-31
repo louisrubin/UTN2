@@ -1,4 +1,4 @@
-package POO;
+package POO.EJER4;
 public class Electrodomestico {
     protected byte id;
     protected double precioBase, peso;

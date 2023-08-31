@@ -1,4 +1,4 @@
-package POO;
+package POO.EJER4;
 
 public class Television extends Electrodomestico {
     private double resolucion;
