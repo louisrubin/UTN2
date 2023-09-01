@@ -6,11 +6,17 @@ public class EmpleadoPorHoras extends Empleado implements Impuesto {
         super(nombre);
         this.horasTrabajadas = horasTrabajadas;
         this.pagoXhoras = pagoXhoras;
+        this.sueldoBase = calcularSueldo();
     }
 
     @Override
     public double calcularSueldo() {
         return horasTrabajadas * pagoXhoras;
+    }
+
+    @Override
+    public double sueldoFinal() {
+        return calcularSueldo() - calcularImpuesto();
     }
 
     public int getHorasTrabajadas() {

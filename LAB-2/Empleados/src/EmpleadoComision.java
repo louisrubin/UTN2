@@ -27,6 +27,11 @@ public class EmpleadoComision extends Empleado implements Impuesto {
     }
 
     @Override
+    public double sueldoFinal() {
+        return this.calcularSueldo() - calcularImpuesto();
+    }
+
+    @Override
     public String toString() {
         return "[id="+ getId() + ",nombre=" + this.getNombre() + ",sueldo=$"+getSueldoBase()
                 + ",ventasRealizadas=" + ventasRealizadas + ",comision=" + comisionXventas + "%,]";

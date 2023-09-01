@@ -1,7 +1,7 @@
 public abstract class Empleado {
-    private String nombre;
-    private int id;
-    private double sueldoBase;
+    protected String nombre;
+    protected int id;
+    protected double sueldoBase;
 
     private static byte siguienteID=0;
 
@@ -20,11 +20,11 @@ public abstract class Empleado {
     };
 
     protected abstract double calcularSueldo();
+    protected abstract double sueldoFinal();
 
     protected double getSueldoBase() {
         return sueldoBase;
     }
-
     protected int getId() {
         return id;
     }
