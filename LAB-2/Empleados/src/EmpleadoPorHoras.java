@@ -1,4 +1,4 @@
-public class EmpleadoPorHoras extends Empleado {
+public class EmpleadoPorHoras extends Empleado implements Impuesto {
     private int horasTrabajadas;
     private double pagoXhoras;
 
@@ -19,5 +19,11 @@ public class EmpleadoPorHoras extends Empleado {
 
     public double getPagoXhoras() {
         return pagoXhoras;
+    }
+
+    @Override
+    public double calcularImpuesto() {
+        // devuelve solo la cantidad que se debe restar al sueldo
+        return this.calcularSueldo() * 0.15;
     }
 }

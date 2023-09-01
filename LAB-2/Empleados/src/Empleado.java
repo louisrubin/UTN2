@@ -1,42 +1,43 @@
-public class Empleado {
+public abstract class Empleado {
     private String nombre;
     private int id;
     private double sueldoBase;
 
     private static byte siguienteID=0;
 
-    public Empleado(String nombre){
+    protected Empleado(){
+        // ..
+    }
+    protected Empleado(String nombre){
         this.id = siguienteID++;
         this.nombre = nombre;
     }
 
-    public Empleado(String nombre, double sueldo){
+    protected Empleado(String nombre, double sueldo){
         this.id = siguienteID++;
         this.nombre= nombre;
         this.sueldoBase = sueldo;
     };
 
-    public double calcularSueldo(){
+    protected abstract double calcularSueldo();
+
+    protected double getSueldoBase() {
         return sueldoBase;
     }
 
-    public double getSueldoBase() {
-        return sueldoBase;
-    }
-
-    public int getId() {
+    protected int getId() {
         return id;
     }
 
-    public String getNombre() {
+    protected String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    protected void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setSueldoBase(double sueldoBase) {
+    protected void setSueldoBase(double sueldoBase) {
         this.sueldoBase = sueldoBase;
     }
 }

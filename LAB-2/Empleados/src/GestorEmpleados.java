@@ -21,6 +21,6 @@ public class GestorEmpleados {
             }
         }
     }
-    public void editEmpleado(String nombre, )
+    //public void editEmpleado(String nombre, )
 
 }
