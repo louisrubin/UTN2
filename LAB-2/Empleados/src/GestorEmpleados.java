@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Scanner;
 
 public class GestorEmpleados {
     private ArrayList<Empleado> empleados;
@@ -29,22 +29,29 @@ public class GestorEmpleados {
             }
         }
     }
+    public void editEmpleado(int id){
+        Scanner sc = new Scanner(System.in);
+        for (Empleado EMPLEADO : empleados){
 
-    @Override
-    public boolean equals(Object objParam) {
-        Empleado E = (Empleado) objParam;
-        return false;
-    }
+            if (EMPLEADO.getId() == id){
+                System.out.print("(X para omitir) NOMBRE '"+EMPLEADO.getNombre() +"'  -->  ");
+                String Nnombre = sc.nextLine();
 
-    public void removeAllEmpleados(){
-        Iterator<Empleado> iterator = empleados.iterator();
-        while (iterator.hasNext()){
-            // mientras haya un elemento siguiente
-            iterator.remove();
-            //iterator = empleados.iterator();    // reinicia el conteo del iterator (vuelve a la posicion 0)
+                if ( ! Nnombre.equalsIgnoreCase("x") ) {
+                    EMPLEADO.setNombre(Nnombre);
+                }
+                if ( ! (EMPLEADO instanceof EmpleadoPorHoras) ){
+                    System.out.print("SUELDO BASE $"+EMPLEADO.getSueldoBase() +"'  -->  $");
+                    EMPLEADO.setSueldoBase(sc.nextDouble());
+                }
+                System.out.println();
+                return;
+            }
         }
-        System.out.println("Eliminados todos.");
+        sc.close();
     }
+
+
     public boolean empleadoRepetido(Empleado empleadoParam){
         // devuelve true si son repetidos
         for (Empleado EMPLEADO : empleados){
@@ -80,11 +87,12 @@ public class GestorEmpleados {
         EmpleadoPorHoras e2 = new EmpleadoPorHoras("pepe", 6, 15);
         EmpleadoComision e3 = new EmpleadoComision("jose", 1300, 5, 15);
 
-        gestor.toString();
         gestor.addEmpleado(e);
         gestor.addEmpleado(e2);
         gestor.addEmpleado(e3);
+        gestor.toString();
         gestor.addEmpleado( new EmpleadoAsalariado("sofia", 1300) );
+        gestor.editEmpleado(0);
         gestor.toString();
     }
 }

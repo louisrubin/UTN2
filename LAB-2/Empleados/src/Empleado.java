@@ -1,6 +1,6 @@
 public abstract class Empleado {
-    protected String nombre;
-    protected int id;
+    private String nombre;
+    private int id;
     protected double sueldoBase;
 
     private static byte siguienteID=0;
