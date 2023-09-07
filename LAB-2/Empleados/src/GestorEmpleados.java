@@ -12,7 +12,7 @@ public class GestorEmpleados {
         // metodo para agregar un empleado al array.
         if ( ! empleadoRepetido(empleadoParam) ) {
             // si NO es repetido continua:
-            empleados.add(empleadoParam);
+            this.empleados.add(empleadoParam);
             System.out.println("Empleado agregado.");
             return;
         }
@@ -67,11 +67,11 @@ public class GestorEmpleados {
 
     @Override
     public String toString() {
-        for (Empleado EMPLEADO : empleados){
+        for (Empleado EMPLEADO : this.empleados){
             System.out.println(EMPLEADO.getId() + ", "+EMPLEADO.getNombre()
                     + ", $"+ EMPLEADO.getSueldoBase() +" -> $" + EMPLEADO.sueldoFinal() );
         }
-        return "QQQQ";
+        return "public String toString() { }";
     }
 
     /*

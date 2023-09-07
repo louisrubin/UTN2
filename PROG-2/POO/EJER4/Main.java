@@ -19,13 +19,13 @@ public class Main {
         byte cantTelev=0, cantLava=0, cantElect=0;
         double lastPrice;
 
-        for(int x=0; x < array.length; x++){
-            lastPrice = array[x].precioFinal();
+        for(Electrodomestico ELEC : array){
+            lastPrice = ELEC.precioFinal();
 
-            if (array[x] instanceof Television){
+            if (ELEC instanceof Television){
                 finalTelevisores += lastPrice;
                 cantTelev++;
-            }else if (array[x] instanceof Lavarropas ){
+            }else if (ELEC instanceof Lavarropas ){
                 finalLavarropas += lastPrice;
                 cantLava++;
             }
