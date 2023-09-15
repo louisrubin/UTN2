@@ -54,6 +54,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Author=[id="+this.id+",name="+this.name+",balance=$"+this.balance+"]";
+        return "Account=[id="+this.id+",name="+this.name+",balance=$"+this.balance+"]";
     }
 }
