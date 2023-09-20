@@ -1,79 +1,112 @@
 package POO.TrabajoIntegradorP1;
 
 public class Perro  extends Animal implements Mascota, Terrestre{
-    private String nombre, comidaFav="";
+    private String nombre="", comidaFav="";
     private int cantPatas = 4;
+    protected final String tipoHabitat = listaHabitats[0];  // terrestre
 
+    public Perro(){
+        // ..
+    }
+    public Perro(double peso){
+        this.peso = peso;
+    }
     public Perro(String nombre){
         this.nombre = nombre;
-        this.tipoHabitat = listaHabitats[0];
     }
     public Perro(String nombre, double peso){
         this.nombre = nombre;
-        this.tipoHabitat = listaHabitats[0];
         this.peso = peso;
     }
     public Perro(String nombre, String comidaFav){
         this.comidaFav = comidaFav;
         this.nombre = nombre;
-        this.tipoHabitat = listaHabitats[0];
     }
     public Perro(String nombre, String comidaFav, double peso){
         this.comidaFav = comidaFav;
         this.nombre = nombre;
         this.peso = peso;
-        this.tipoHabitat = listaHabitats[0];
     }
 
     @Override
     public void hacerRuido() {
-        System.out.println(this.nombre + " ladra*");
+        if (nombre.isBlank()){
+            System.out.println("El PERRO ladra*");
+        } else System.out.println(this.nombre + " ladra*");
     }
 
     @Override
     public void comer() {
-        if (comidaFav.isEmpty()) System.out.println(nombre + " está comiendo*");
-        else System.out.println(nombre + " está comiendo "+ comidaFav);
+        if (comidaFav.isBlank() && nombre.isBlank()){
+            System.out.println("El PERRO está comiendo*");
+        }
+        else if (comidaFav.isBlank() && ! nombre.isBlank()) {
+            System.out.println(nombre+ " está comiendo "+comidaFav+ "*");
+        }
+        else if (nombre.isBlank() && ! comidaFav.isBlank()){
+            System.out.println("El PERRO está comiendo "+ comidaFav);
+        }
     }
 
     @Override
     public void acariciar() {
-        System.out.println("Acariciando a "+this.nombre +"*");
+        if (nombre.isBlank()){
+            System.out.println("Acariciando al PERRO*");
+        } else  System.out.println("Acariciando a "+this.nombre +"*");
     }
 
     @Override
     public void alimentar() {
-        if (this.comidaFav.isEmpty()) System.out.println("Dando de comer a "+this.nombre +"*");
-        else System.out.println("Dando de comer "+ this.comidaFav+ " a "+this.nombre +"*");
+        // verifica los campos 'nombre' y 'comidaFav' y muestra un mensaje correspondiente
+        if (comidaFav.isBlank() && nombre.isBlank()){
+            System.out.println("Alimentando al PERRO*");
+        }
+        else if (comidaFav.isBlank() && ! nombre.isBlank()) {
+            // si solo comidaFav está vacio
+            System.out.println("Alimentando a "+nombre+ "*");
+        }
+        else if (nombre.isBlank() && ! comidaFav.isBlank()){
+            System.out.println("El PERRO está comiendo "+ comidaFav + "*");
+        }
     }
 
     @Override
     public void bañarlo() {
-        System.out.println("Bañando a "+this.nombre +" y lo disfruta*");
+        if (nombre.isBlank()){
+            System.out.println("Bañando al PERRO*");
+        } else System.out.println("Bañando a "+this.nombre +" y lo disfruta*");
     }
 
     @Override
     public void jugarConEl() {
-        System.out.println("Lanzando una pelota y "+this.nombre +" lo devuelve*");
+        if (nombre.isBlank()){
+            System.out.println("Lanzando una pelota y el PERRO lo trae*");
+        } else  System.out.println("Lanzando una pelota y "+this.nombre +" lo devuelve*");
     }
 
     @Override
     public void correr() {
-        System.out.println(nombre + " está corriendo*");
+        if (nombre.isBlank()){
+            System.out.println("El PERRO está corriendo*");
+        } else System.out.println(nombre + " está corriendo*");
     }
 
     @Override
     public void saltar() {
-        System.out.println(nombre + " acaba de saltar*");
+        if (nombre.isBlank()){
+            System.out.println("El PERRO acaba de saltar*");
+        } else System.out.println(nombre + " acaba de saltar*");
     }
 
     @Override
     public void mojarse() {
-        System.out.println(nombre + " ama el agua*");
+        if (nombre.isBlank()){
+            System.out.println("El PERRO ama mojarse*");
+        } else System.out.println(nombre + " ama mojarse*");
     }
     @Override
     public void pierdeUnaPata() {
-        this.cantPatas--;
+        if (this.cantPatas > 0) this.cantPatas--;
     }
     public String getNombre() {
         return nombre;
@@ -103,14 +136,7 @@ public class Perro  extends Animal implements Mascota, Terrestre{
 
 
     public static void main(String[] args) {
-        Perro p = new Perro("colita", 8.3);
-        p.hacerRuido();
-        p.alimentar();
-        System.out.println(p.getPeso());
-        System.out.println(p.getCantPatas());
-        p.pierdeUnaPata();
-        System.out.println(p.getCantPatas());
-        p.setNombre("goku");
+        Perro p = new Perro(8.3);
         p.hacerRuido();
     }
 }
