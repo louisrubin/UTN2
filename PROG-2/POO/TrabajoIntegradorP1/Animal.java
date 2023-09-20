@@ -8,4 +8,5 @@ public abstract class Animal {
 
     public abstract void hacerRuido();
     public abstract void comer();
+    public abstract void pierdeUnaPata();
 }

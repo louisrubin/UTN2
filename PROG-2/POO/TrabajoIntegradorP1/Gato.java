@@ -51,6 +51,30 @@ public class Gato extends Animal implements Terrestre, Mascota{
         System.out.println(nombre + " huyó del agua*");
     }
 
+    @Override
+    public void acariciar() {
+        System.out.println("Acariciando a "+this.nombre +"*");
+    }
+
+    @Override
+    public void alimentar() {
+        if (this.comidaFav.isEmpty()) System.out.println("Dando de comer a "+this.nombre +"*");
+        else System.out.println("Dando de comer "+ this.comidaFav+ " a "+this.nombre +"*");
+    }
+
+    @Override
+    public void bañarlo() {
+        System.out.println("Bañando a "+this.nombre +" con dificultad*");
+    }
+
+    @Override
+    public void jugarConEl() {
+        System.out.println("Jugando con un laser mientras "+this.nombre +" lo persigue*");
+    }
+    @Override
+    public void pierdeUnaPata(){
+        this.cantPatas--;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -73,30 +97,7 @@ public class Gato extends Animal implements Terrestre, Mascota{
     public void setComidaFav(String comidaFav) {
         this.comidaFav = comidaFav;
     }
-    public void pierdeUnaPata(){
-        this.cantPatas--;
-    }
 
-    @Override
-    public void acariciar() {
-        System.out.println("Acariciando a "+this.nombre +"*");
-    }
-
-    @Override
-    public void alimentar() {
-        if (this.comidaFav.isEmpty()) System.out.println("Dando de comer a "+this.nombre);
-        else System.out.println("Dando de comer "+ this.comidaFav+ " a "+this.nombre);
-    }
-
-    @Override
-    public void bañarlo() {
-        System.out.println("Bañando a "+this.nombre +"*");
-    }
-
-    @Override
-    public void jugarConEl() {
-        System.out.println("Jugando con "+this.nombre +"*");
-    }
 
     public static void main(String[] args) {
         Gato gato = new Gato("minina");
