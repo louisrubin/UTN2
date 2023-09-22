@@ -3,12 +3,20 @@ public class CuentaPersona extends Cuenta{
 
     public CuentaPersona(){
         this.numeroCuenta = sigId++;
+        System.out.println("Nueva Cuenta Persona (NumeroCuenta= "+numeroCuenta+")");
     }
-    public CuentaPersona(String nom, String apell, double saldo){
+    public CuentaPersona(String nombre, String apellido){
         this.numeroCuenta = sigId++;
-        this.nombre = nom;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        System.out.println("Nueva Cuenta Persona (NumeroCuenta= "+numeroCuenta+")");
+    }
+    public CuentaPersona(String nombre, String apell, double saldo){
+        this.numeroCuenta = sigId++;
+        this.nombre = nombre;
         this.apellido = apell;
         this.saldo = saldo;
+        System.out.println("Nueva Cuenta Persona (NumeroCuenta= "+numeroCuenta+")");
     }
 
     @Override

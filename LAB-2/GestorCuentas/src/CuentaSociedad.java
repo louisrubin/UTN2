@@ -3,11 +3,13 @@ public class CuentaSociedad extends Cuenta{
 
     public CuentaSociedad(){
         this.numeroCuenta = sigId++;
+        System.out.println("Nueva Cuenta Sociedad (NumeroCuenta= "+numeroCuenta+")");
     }
     public CuentaSociedad(String nombreEmpresa, String tipoEmpresa){
         this.numeroCuenta = sigId++;
         this.nombreEmpresa = nombreEmpresa;
         this.tipoEmpresa = tipoEmpresa;
+        System.out.println("Nueva Cuenta Sociedad (NumeroCuenta= "+numeroCuenta+")");
     }
     @Override
     public void depositar(double cant) {
