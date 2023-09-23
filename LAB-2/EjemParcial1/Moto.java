@@ -5,10 +5,12 @@ public class Moto extends Vehiculo{
 
     public Moto(){
         super();
+        System.out.println("Nueva Moto [patente "+this.getPatente() +"]");
     }
     public Moto(int cilindrada){
         super();
         this.cilindrada = cilindrada;
+        System.out.println("Nueva Moto [patente "+this.getPatente() +"]");
     }
     @Override
     public double calcularImpuesto() {
@@ -26,11 +28,14 @@ public class Moto extends Vehiculo{
     }
 
     public static void main(String[] args) {
-        Moto m1 = new Moto();
-        Moto m2 = new Moto();
-        Moto m3 = new Moto();
+        Moto m1 = new Moto(110);
+        Moto m2 = new Moto(260);
+        Moto m3 = new Moto(150);
         Moto m4 = new Moto();
         Moto m5 = new Moto();
+
+        Coche c1 = new Coche();
+        Coche c2 = new Coche("negro");
 
         System.out.println(m1.getPatentesRegistradas());
 
@@ -39,6 +44,9 @@ public class Moto extends Vehiculo{
         m3.mostrarInformacion();
         m4.mostrarInformacion();
         m5.mostrarInformacion();
+
+        c1.mostrarInformacion();
+        c2.mostrarInformacion();
 
     }
 }

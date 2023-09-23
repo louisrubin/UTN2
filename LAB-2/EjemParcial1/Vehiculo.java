@@ -1,6 +1,5 @@
 package EjemParcial1;
 
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,8 +7,8 @@ public abstract class Vehiculo {
     private String marca, modelo, patente;
     private double precio;
     private final char[] listaPatente = {'q','k','m','o','h','z',
-                                        '0','1','2','3','7','9'};
-    private static ArrayList<String> patentesRegistradas = new ArrayList<>();
+                                        '1','2','3','6','7','9'};
+    private static ArrayList<String> patentesRegistradas = new ArrayList<>();   // almacena todas las patentes creadas
 
     public Vehiculo(){
         this.patente = asignarNuevaPatente();
@@ -39,7 +38,7 @@ public abstract class Vehiculo {
         // metodo que genera una patente aleatorio
         String string ="";
         Random random = new Random();
-        for (int x=0; x<5; x++){
+        for (int x=0; x<3; x++){
             int indice = random.nextInt(lista.length);
             string += lista[indice] ;
         }
