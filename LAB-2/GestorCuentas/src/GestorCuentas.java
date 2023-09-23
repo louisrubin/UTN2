@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class GestorCuentas {
     private ArrayList<CuentaPersona> personas;
@@ -37,7 +38,7 @@ public class GestorCuentas {
             System.out.println("Cuenta eliminada con exito.");
         }
     }
-    public int eliminarCuentaPersona(int nroCuenta){
+    private int eliminarCuentaPersona(int nroCuenta){
         try{
             for (CuentaPersona person : personas){
                 if (nroCuenta == person.numeroCuenta) {
@@ -51,7 +52,7 @@ public class GestorCuentas {
         return 1;
     }
 
-    public int eliminarCuentaSociedad(int nroCuenta){
+    private int eliminarCuentaSociedad(int nroCuenta){
         try{
             for (CuentaSociedad sociedad : sociedades){
                 if (nroCuenta == sociedad.numeroCuenta) {
@@ -65,14 +66,42 @@ public class GestorCuentas {
         return 1;
     }
 
-    public void editarCuentaPersona(int numeroCuenta, double nuevoSaldo){
-        try{
-            for(CuentaPersona person : personas){
-                if (person.numeroCuenta == numeroCuenta){
-                    person.saldo = nuevoSaldo;
-                    return;
-                } else System.out.println("No existe una Persona con esa ID.");
+    public void editarUnaCuenta(int nroCuenta){
+        // METODO QUE USA LOS DOS METODOS EDITAR
+        Scanner sc = new Scanner(System.in);
+
+        for (CuentaPersona persona : personas){
+            if (persona.numeroCuenta == nroCuenta) {
+
+                System.out.println("Ingrese nuevo sueldo: $");
+                double nuevoSueldo = sc.nextDouble();
+                persona.setSueldo(nuevoSueldo);
+                System.out.println("Cuenta editado con exito.");
+                sc.close();
+                return;
             }
+        }
+        // el for anterior tiene un 'return', si no se encontró una persona continua con este 'for'
+        for (CuentaSociedad sociedad : sociedades){
+            if (sociedad.numeroCuenta == nroCuenta) {
+
+                System.out.println("Ingrese nuevo sueldo: $");
+                double nuevoSueldo = sc.nextDouble();
+                sociedad.setSueldo(nuevoSueldo);
+                System.out.println("Cuenta editado con exito.");
+                sc.close();
+                return;
+            }
+        }
+        // si ningun for encontró una cuenta significa que no se ejecutaron los 'returns'
+        System.out.println("No existe una cuenta con ese Nro de Cuenta.");
+        sc.close();
+    }
+
+    /*
+    public void editarCuentaPersona(CuentaPersona cuentaPersona, double nuevoSueldo){
+        try{
+            cuentaPersona.setSueldo(nuevoSueldo);
         }
         catch (Exception e){
             System.out.println("Error al editar una persona. " + e.getMessage());
@@ -92,25 +121,29 @@ public class GestorCuentas {
             System.out.println("Error al editar una sociedad. " + e.getMessage());
         }
     }
+    */
 
     public void mostrarTodasLasCuentas(){
         // MOSTRAR TODAS LAS PERSONAS
-        System.out.println("Personas: \n  { \n");
+        System.out.print("PERSONAS: \n  { \n");
         for (CuentaPersona person : personas){
             person.mostrarInfo();
-            /*
-            System.out.println("NroCuenta: " +person.numeroCuenta + ", Nombre: "
-                    + person.getNombre()  + ", Apellido: " +person.getApellido() );
-            */
         }
         System.out.println("  }");
 
         // MOSTRAR TODAS LAS SOCIEDADES
-        System.out.println("Sociedades: \n  { \n");
+        System.out.print("SOCIEDADES: \n  { \n");
         for (CuentaSociedad sociedad : sociedades){
             sociedad.mostrarInfo();
         }
         System.out.println("  }");
     }
 
+    public ArrayList<CuentaPersona> getPersonas() {
+        return personas;
+    }
+
+    public ArrayList<CuentaSociedad> getSociedades() {
+        return sociedades;
+    }
 }

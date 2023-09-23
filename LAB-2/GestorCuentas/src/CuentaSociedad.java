@@ -39,4 +39,7 @@ public class CuentaSociedad extends Cuenta{
     public String getTipoEmpresa() {
         return tipoEmpresa;
     }
+    public void setSueldo(double sueldo){
+        this.saldo = sueldo;
+    }
 }

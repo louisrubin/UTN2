@@ -45,4 +45,7 @@ public class CuentaPersona extends Cuenta{
     public String getApellido() {
         return apellido;
     }
+    public void setSueldo(double sueldo){
+        this.saldo = sueldo;
+    }
 }
