@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -66,18 +67,24 @@ public class GestorCuentas {
         return 1;
     }
 
-    public void editarUnaCuenta(int nroCuenta){
+    public void editarUnaCuenta(int nroCuenta, Scanner sc) {
         // METODO QUE USA LOS DOS METODOS EDITAR
-        Scanner sc = new Scanner(System.in);
+        double nuevoSueldo = 0;
 
         for (CuentaPersona persona : personas){
             if (persona.numeroCuenta == nroCuenta) {
 
-                System.out.println("Ingrese nuevo sueldo: $");
-                double nuevoSueldo = sc.nextDouble();
+                try {
+                    System.out.print("Ingrese nuevo sueldo: $");
+                    nuevoSueldo = sc.nextDouble();
+                }catch (Exception e){
+                    System.out.println("ERROR: TIPO DE DATO INCORRECTO.");
+                    sc.nextLine();
+                    return;
+                }
+
                 persona.setSueldo(nuevoSueldo);
                 System.out.println("Cuenta editado con exito.");
-                sc.close();
                 return;
             }
         }
@@ -85,48 +92,29 @@ public class GestorCuentas {
         for (CuentaSociedad sociedad : sociedades){
             if (sociedad.numeroCuenta == nroCuenta) {
 
-                System.out.println("Ingrese nuevo sueldo: $");
-                double nuevoSueldo = sc.nextDouble();
+                try {
+                    System.out.print("Ingrese nuevo sueldo: $");
+                    nuevoSueldo = sc.nextDouble();
+                }catch (Exception e){
+                    System.out.println("ERROR: TIPO DE DATO INCORRECTO.");
+                    sc.nextLine();
+                    return;
+                }
+
                 sociedad.setSueldo(nuevoSueldo);
                 System.out.println("Cuenta editado con exito.");
-                sc.close();
                 return;
             }
         }
         // si ningun for encontró una cuenta significa que no se ejecutaron los 'returns'
-        System.out.println("No existe una cuenta con ese Nro de Cuenta.");
-        sc.close();
+        System.out.println("No existe ese numero de cuenta.");
     }
-
-    /*
-    public void editarCuentaPersona(CuentaPersona cuentaPersona, double nuevoSueldo){
-        try{
-            cuentaPersona.setSueldo(nuevoSueldo);
-        }
-        catch (Exception e){
-            System.out.println("Error al editar una persona. " + e.getMessage());
-        }
-    }
-
-    public void editarCuentaSociedad(int numeroCuenta, double nuevoSaldo){
-        try{
-            for(CuentaSociedad sociedad : sociedades){
-                if (sociedad.numeroCuenta == numeroCuenta){
-                    sociedad.saldo = nuevoSaldo;
-                    return;
-                } else System.out.println("No existe una Sociedad con esa ID.");
-            }
-        }
-        catch (Exception e){
-            System.out.println("Error al editar una sociedad. " + e.getMessage());
-        }
-    }
-    */
 
     public void mostrarTodasLasCuentas(){
         // MOSTRAR TODAS LAS PERSONAS
         System.out.print("PERSONAS: \n  { \n");
         for (CuentaPersona person : personas){
+            System.out.print("\t");
             person.mostrarInfo();
         }
         System.out.println("  }");
@@ -134,6 +122,7 @@ public class GestorCuentas {
         // MOSTRAR TODAS LAS SOCIEDADES
         System.out.print("SOCIEDADES: \n  { \n");
         for (CuentaSociedad sociedad : sociedades){
+            System.out.print("\t");
             sociedad.mostrarInfo();
         }
         System.out.println("  }");

@@ -11,7 +11,7 @@ public class Main {
         do {
             System.out.println("-----------------------------------------------");
             System.out.print("1- Crear Cuenta Persona\n2- Crear Cuenta Sociedad\n3- Eliminar Cuenta" +
-                    "\n4- Editar Cuenta\n5- Mostrar Info de todas las Cuentas\n6- SALIR\n  --> ");
+                    "\n4- Editar Cuenta\n5- Listar todas las Cuentas\n6- SALIR\n  --> ");
             opc= sc.nextInt();
             System.out.println("-----------------------------------------------");
 
@@ -47,7 +47,7 @@ public class Main {
                     System.out.print("Ingrese Nro Cuenta: ");
                     nroCuenta = sc.nextInt();
 
-                    gestorCuentas.editarUnaCuenta(nroCuenta);
+                    gestorCuentas.editarUnaCuenta(nroCuenta, sc);
                     break;
 
                 case 5:
@@ -55,6 +55,7 @@ public class Main {
                     break;
 
                 case 6:
+                    sc.close();
                     System.exit(0);
             }
         } while (opc > 0 && opc <=5);
