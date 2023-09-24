@@ -59,6 +59,22 @@ public abstract class Vehiculo {
         return modelo;
     }
 
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
     public String getPatente() {
         return patente;
     }
