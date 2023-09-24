@@ -6,9 +6,10 @@ import java.util.Random;
 public abstract class Vehiculo {
     private String marca, modelo, patente;
     private double precio;
-    private final char[] listaPatente = {'q','k','m','o','h','z',
-                                        '1','2','3','6','7','9'};
+    private final char[] listaPatente = {'q','k','m','o','h','f',
+                                        '1','2','3','6','7','8'};
     private static ArrayList<String> patentesRegistradas = new ArrayList<>();   // almacena todas las patentes creadas
+    git commit -m "cambios menores" -m "cambios menores al ejecutar el programa "
 
     public Vehiculo(){
         this.patente = asignarNuevaPatente();

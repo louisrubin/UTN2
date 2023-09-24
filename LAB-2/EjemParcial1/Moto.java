@@ -20,7 +20,9 @@ public class Moto extends Vehiculo{
 
     @Override
     public void mostrarInformacion() {
-        System.out.println("[patente="+getPatente() +",marca="+this.getMarca()+",modelo="+this.getModelo()+",cilindrada="+this.cilindrada+"]");
+        System.out.println("Moto [patente="+getPatente() +",marca="+this.getMarca() +
+                ",modelo=" + this.getModelo()+",cilindrada="+this.cilindrada +
+                ",precio=$" + this.getPrecio() +"]");
     }
 
     public void setCilindrada(int cilindrada) {

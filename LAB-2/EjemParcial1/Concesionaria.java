@@ -35,7 +35,7 @@ public class Concesionaria {
     public void editarPrecio(String patenteParam, Scanner sc){
         Vehiculo veh = buscarVehiculo(patenteParam);    // metodo de busqueda de vehiculo
         if (veh != null){
-            System.out.println("Ingrese nuevo precio: $");
+            System.out.print("Ingrese nuevo precio: $");
             double nuevoPrecio = sc.nextDouble();
             veh.setPrecio(nuevoPrecio);
             sc.nextLine();      // consumir la linea vacia en el buffer
@@ -59,7 +59,6 @@ public class Concesionaria {
         // metodo privado para buscar y retornar un vehiculo a través de una patente
         for (Vehiculo ve : vehiculos){
             if (ve.getPatente().equals(patente)){
-                vehiculos.remove(ve);
                 return ve;
             }
         }
@@ -83,6 +82,7 @@ public class Concesionaria {
 
     public static void main(String[] args) {
         Concesionaria concesionaria = new Concesionaria();
+        Scanner sc = new Scanner(System.in);
 
         Coche c1 = new Coche("gris");
         Coche c2 = new Coche();
@@ -94,6 +94,10 @@ public class Concesionaria {
 
         concesionaria.agregarVehiculo(c1, c2, c3);
         concesionaria.agregarVehiculo(m1, m2, m3);
+
+
+        String patente = sc.nextLine();
+        concesionaria.eliminarVehiculo(patente);
 
         concesionaria.mostrarInventario();
     }

@@ -20,6 +20,55 @@ public class Coche extends Vehiculo{
 
     @Override
     public void mostrarInformacion() {
-        System.out.println("[patente="+getPatente() +",marca="+this.getMarca()+",modelo="+this.getModelo()+ ",color=" +color +"]");
+        System.out.println("Coche [patente="+getPatente() +",marca="+this.getMarca() +
+                ",modelo=" + this.getModelo()+ ",color=" +color + ",precio=$" + this.getPrecio() +"]");
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public String getPatente() {
+        return super.getPatente();
+    }
+
+    @Override
+    public double getPrecio() {
+        return super.getPrecio();
+    }
+
+    @Override
+    public String getMarca() {
+        return super.getMarca();
+    }
+
+    @Override
+    public String getModelo() {
+        return super.getModelo();
+    }
+
+    @Override
+    public void setMarca(String marca) {
+        super.setMarca(marca);
+    }
+
+    @Override
+    public void setModelo(String modelo) {
+        super.setModelo(modelo);
+    }
+
+    @Override
+    public void setPatente(String patente) {
+        super.setPatente(patente);
+    }
+
+    @Override
+    public void setPrecio(double precio) {
+        super.setPrecio(precio);
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
