@@ -1,14 +1,15 @@
 package EjemParcial1;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
 public abstract class Vehiculo {
     private String marca, modelo, patente;
     private double precio;
-    private final char[] listaPatente = {'q','k','m','o','h','f',
-                                        '1','2','3','6','7','8'};
+    private final char[] listaPatente = {'q','w','e','r','t','y',
+                                        '1','2','3','4','5','6'};
     private static ArrayList<String> patentesRegistradas = new ArrayList<>();   // almacena todas las patentes creadas
 
     public Vehiculo(){

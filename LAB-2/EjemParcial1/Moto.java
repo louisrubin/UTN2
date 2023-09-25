@@ -71,27 +71,4 @@ public class Moto extends Vehiculo implements java.io.Serializable {
         this.cilindrada = cilindrada;
     }
 
-    public static void main(String[] args) {
-        Moto m1 = new Moto(110);
-        Moto m2 = new Moto(260);
-        Moto m3 = new Moto(150);
-        Moto m4 = new Moto();
-        Moto m5 = new Moto();
-
-        Coche c1 = new Coche();
-        Coche c2 = new Coche("negro");
-
-        System.out.println(m1.getPatentesRegistradas());
-
-        m1.mostrarInformacion();
-        m2.mostrarInformacion();
-        m3.mostrarInformacion();
-        m4.mostrarInformacion();
-        m5.mostrarInformacion();
-
-        c1.mostrarInformacion();
-        c2.mostrarInformacion();
-
-    }
-
 }

@@ -1,11 +1,11 @@
 package EjemParcial1;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Concesionaria implements Serializable, java.io.Serializable {
+    private static final long serialVersionUID = 111222333;
     LinkedList<Vehiculo> vehiculos;
 
     public Concesionaria(){
@@ -67,7 +67,7 @@ public class Concesionaria implements Serializable, java.io.Serializable {
         return null;
     }
 
-    private Vehiculo buscarVehiculo(String marca, String modelo){
+    public Vehiculo buscarVehiculo(String marca, String modelo){
         // metodo privado para buscar y retornar un vehiculo a través de un modelo y marca
 
         for (Vehiculo ve : vehiculos){
@@ -77,9 +77,26 @@ public class Concesionaria implements Serializable, java.io.Serializable {
         }
         return null;
     }
+    public int contadorMotos(){
+        // contador de motos dentro del LinkedList
+        int cantMoto = 0;
+        if (vehiculos != null){
+            for (Vehiculo ve : vehiculos){
+                cantMoto += ve instanceof Moto ?  1 : 0;
+            }
+        }
 
-    public LinkedList<Vehiculo> getVehiculos() {
-        return vehiculos;
+        return cantMoto;
+    }
+    public int contadorCoche(){
+        // contador de coches dentro del LinkedList
+        int cantCoche = 0;
+        if (vehiculos != null) {
+            for (Vehiculo ve : vehiculos){
+                cantCoche += ve instanceof Coche ?  1 : 0;
+            }
+        }
+        return cantCoche;
     }
     @Override
     public void serializar(Concesionaria concesionaria) {
@@ -95,45 +112,25 @@ public class Concesionaria implements Serializable, java.io.Serializable {
         }
     }
     @Override
-    public ArrayList<Vehiculo> deserializar()  {
-        ArrayList<Vehiculo> vehiculosDeserializados;
+    public Concesionaria deserializar()  {
+        Concesionaria deserializado;
 
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Serializable.archivo));
-            vehiculosDeserializados = (ArrayList<Vehiculo>) objectInputStream.readObject();
+            deserializado = (Concesionaria) objectInputStream.readObject();
             objectInputStream.close();
 
+            this.vehiculos = deserializado.getVehiculos();      // deserializa y asigna el nuevo LinkedList al this.vehiculos
+
             System.out.println("Deserializado con exito.");
-            return vehiculosDeserializados;
+            return deserializado;
         } catch (Exception e) {
-            System.out.println("Error al deserializar.");
+            System.out.println("Error al deserializar. ->> " + e.getMessage());
         }
         return null;
     }
 
-
-/*
-    public static void main(String[] args) {
-        Concesionaria concesionaria = new Concesionaria();
-        Scanner sc = new Scanner(System.in);
-
-        Coche c1 = new Coche("gris");
-        Coche c2 = new Coche();
-        Coche c3 = new Coche("blanco");
-
-        Moto m1 = new Moto(150);
-        Moto m2 = new Moto(110);
-        Moto m3 = new Moto();
-
-        concesionaria.agregarVehiculo(c1, c2, c3);
-        concesionaria.agregarVehiculo(m1, m2, m3);
-
-
-        String patente = sc.nextLine();
-        concesionaria.eliminarVehiculo(patente);
-
-        concesionaria.mostrarInventario();
+    public LinkedList<Vehiculo> getVehiculos() {
+        return vehiculos;
     }
-*/
-
 }

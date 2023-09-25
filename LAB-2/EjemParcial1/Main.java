@@ -5,14 +5,18 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Concesionaria concesionaria = new Concesionaria();     // vehiculos = new ArrayList<>();
+        Concesionaria concesionaria = new Concesionaria();     // vehiculos = new LinkedList<>();
+        concesionaria.deserializar();       // deserializar
 
         while (true) {
             // ciclo while que se cierra en el case 6 que mata al programa directamente
-
-            System.out.print("1. Agregar Coche \n2. Agregar Moto \n3. Eliminar un Vehiculo" +
-                            "\n4. Editar un Vehiculo\n5. Listar todos los Vehiculos\n6. Salir\n --> ");
+            System.out.println("--------------------------------------");
+            System.out.print("1. Agregar Coche (" + concesionaria.contadorCoche() + ")" +
+                            "\n2. Agregar Moto " + "(" + concesionaria.contadorMotos() + ")" +
+                            "\n3. Eliminar un Vehiculo" + "\n4. Editar un Vehiculo" +
+                            "\n5. Listar todos los Vehiculos\n6. Serializar y SALIR\n --> ");
             int opc = sc.nextInt();
+            System.out.println("--------------------------------------");
             sc.nextLine();
 
             switch (opc) {
@@ -24,9 +28,10 @@ public class Main {
                         Coche coche = new Coche(color);
 
                         concesionaria.agregarVehiculo( coche );
+
                         System.out.println("Coche agregado con exito.");
 
-                        concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
+                        //concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
 
                     } catch (Exception e) {
                         System.out.println("Error al agregar un Coche");
@@ -41,9 +46,9 @@ public class Main {
                         Moto moto = new Moto(cilindrada);
 
                         concesionaria.agregarVehiculo( moto );
-                        System.out.println("Coche agregado con exito.");
+                        System.out.println("Moto agregada con exito.");
 
-                        concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
+                        //concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
 
                     } catch (Exception e) {
                         System.out.println("Error al agregar una Moto");
@@ -72,6 +77,7 @@ public class Main {
 
                 case 6:
                     // salir del programa
+                    concesionaria.serializar(concesionaria);    // serializa antes de cerrar el programa
                     sc.close();
                     System.exit(0);
                 }
