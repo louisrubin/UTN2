@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Concesionaria implements Serializable, java.io.Serializable {
-    private static final long serialVersionUID = 111222333;
+    private static final long serialVersionUID = 111222333;     // sin esta Serial Version no me permite deserializar por imcompatibilidad
     LinkedList<Vehiculo> vehiculos;
 
     public Concesionaria(){
@@ -47,6 +47,7 @@ public class Concesionaria implements Serializable, java.io.Serializable {
     }
 
     public void mostrarInventario(){
+        // muestra todos los autos y motos con toda sus informacion
         System.out.println("  {");
         for ( Vehiculo veh : vehiculos) {
             System.out.print("\t");
@@ -82,7 +83,7 @@ public class Concesionaria implements Serializable, java.io.Serializable {
         int cantMoto = 0;
         if (vehiculos != null){
             for (Vehiculo ve : vehiculos){
-                cantMoto += ve instanceof Moto ?  1 : 0;
+                cantMoto += ve instanceof Moto ?  1 : 0;    // aumenta la cantidad de motos en 1
             }
         }
 
@@ -93,7 +94,7 @@ public class Concesionaria implements Serializable, java.io.Serializable {
         int cantCoche = 0;
         if (vehiculos != null) {
             for (Vehiculo ve : vehiculos){
-                cantCoche += ve instanceof Coche ?  1 : 0;
+                cantCoche += ve instanceof Coche ?  1 : 0;    // aumenta la cantidad de autos en 1
             }
         }
         return cantCoche;

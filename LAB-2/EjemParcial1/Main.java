@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Concesionaria concesionaria = new Concesionaria();     // vehiculos = new LinkedList<>();
-        concesionaria.deserializar();       // deserializar
+        concesionaria.deserializar();       // deserializar al arrancar el programa
 
         while (true) {
             // ciclo while que se cierra en el case 6 que mata al programa directamente
@@ -25,13 +25,9 @@ public class Main {
                     try {
                         System.out.print("Color coche: ");
                         String color = sc.nextLine();
-                        Coche coche = new Coche(color);
-
-                        concesionaria.agregarVehiculo( coche );
+                        concesionaria.agregarVehiculo( new Coche(color) );
 
                         System.out.println("Coche agregado con exito.");
-
-                        //concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
 
                     } catch (Exception e) {
                         System.out.println("Error al agregar un Coche");
@@ -43,9 +39,8 @@ public class Main {
                     try {
                         System.out.print("Cilindrada: ");
                         int cilindrada = sc.nextInt();
-                        Moto moto = new Moto(cilindrada);
 
-                        concesionaria.agregarVehiculo( moto );
+                        concesionaria.agregarVehiculo( new Moto(cilindrada) );
                         System.out.println("Moto agregada con exito.");
 
                         //concesionaria.serializar(concesionaria);     // serializa cada vez que se agrega un vehiculo
@@ -54,12 +49,14 @@ public class Main {
                         System.out.println("Error al agregar una Moto");
                     }
                     break;
+
                 case 3:
                     // eliminar vehiculo
                     System.out.print("Patente: ");
                     String patente = sc.nextLine();
                     concesionaria.eliminarVehiculo(patente);
                     break;
+
                 case 4:
                     // editar vehiculo
                     System.out.print("Patente: ");
@@ -70,6 +67,7 @@ public class Main {
                         vehiculo.editarVehiculo(sc);
                     } else System.out.println("No existe esa patente.");
                     break;
+
                 case 5:
                     // mostrar todos los vehiculos
                     concesionaria.mostrarInventario();
@@ -78,7 +76,7 @@ public class Main {
                 case 6:
                     // salir del programa
                     concesionaria.serializar(concesionaria);    // serializa antes de cerrar el programa
-                    sc.close();
+                    sc.close();             // ciera el Scanner
                     System.exit(0);
                 }
 
