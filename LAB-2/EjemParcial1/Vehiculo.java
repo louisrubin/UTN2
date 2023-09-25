@@ -2,6 +2,7 @@ package EjemParcial1;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public abstract class Vehiculo {
     private String marca, modelo, patente;
@@ -9,7 +10,6 @@ public abstract class Vehiculo {
     private final char[] listaPatente = {'q','k','m','o','h','f',
                                         '1','2','3','6','7','8'};
     private static ArrayList<String> patentesRegistradas = new ArrayList<>();   // almacena todas las patentes creadas
-    git commit -m "cambios menores" -m "cambios menores al ejecutar el programa "
 
     public Vehiculo(){
         this.patente = asignarNuevaPatente();
@@ -47,6 +47,7 @@ public abstract class Vehiculo {
     }
     public abstract double calcularImpuesto();
     public abstract void mostrarInformacion();
+    public abstract void editarVehiculo(Scanner sc);
 
     public double getPrecio() {
         return precio;

@@ -1,7 +1,12 @@
 package EjemParcial1;
 
-public interface Serializable {
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
-    void serializar();  // guardar
-    void deserializar();    // cargar
+public interface Serializable {
+    String archivo =  "LAB-2" + File.separator + "EjemParcial1" + File.separator + "concesionaria.txt";
+
+    void serializar(Concesionaria concesionaria);  // guardar concesionaria
+    ArrayList<Vehiculo> deserializar();    // cargar concesionaria
 }

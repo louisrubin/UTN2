@@ -1,6 +1,10 @@
 package EjemParcial1;
 
-public class Coche extends Vehiculo{
+// import java.io.Serializable;
+
+import java.util.Scanner;
+
+public class Coche extends Vehiculo implements java.io.Serializable {
 
     private String color;
     public Coche(){
@@ -24,51 +28,44 @@ public class Coche extends Vehiculo{
                 ",modelo=" + this.getModelo()+ ",color=" +color + ",precio=$" + this.getPrecio() +"]");
     }
 
+    @Override
+    public void editarVehiculo(Scanner sc) {
+        System.out.println("-ENTER para omitir campos-");
+        try {
+            System.out.print("\tNuevo color: ");
+            String nuevoColor = sc.nextLine();
+            if ( ! nuevoColor.isBlank() )     setColor(nuevoColor);
+
+            System.out.print("\tMarca: ");
+            String nuevaMarca = sc.nextLine();
+            if ( ! nuevaMarca.isBlank())     setMarca( nuevaMarca );
+
+            System.out.print("\tModelo: ");
+            String nuevoModelo = sc.nextLine();
+            if ( ! nuevoModelo.isBlank())     setModelo( nuevoModelo );
+
+            try {
+                System.out.print("\tPrecio (0 omitir): $");
+                double nuevoPrecio = sc.nextDouble();
+                if ( nuevoPrecio != 0.0){
+                    setPrecio( nuevoPrecio );
+                }
+            } catch (Exception e) {
+                System.out.println("Tipo de dato incorrecto.");
+            }
+
+            System.out.println("Editado con exito.");
+        } catch (Exception e){
+            System.out.println("Error editando Coche.");
+        }
+    }
+
     public String getColor() {
         return color;
-    }
-
-    @Override
-    public String getPatente() {
-        return super.getPatente();
-    }
-
-    @Override
-    public double getPrecio() {
-        return super.getPrecio();
-    }
-
-    @Override
-    public String getMarca() {
-        return super.getMarca();
-    }
-
-    @Override
-    public String getModelo() {
-        return super.getModelo();
-    }
-
-    @Override
-    public void setMarca(String marca) {
-        super.setMarca(marca);
-    }
-
-    @Override
-    public void setModelo(String modelo) {
-        super.setModelo(modelo);
-    }
-
-    @Override
-    public void setPatente(String patente) {
-        super.setPatente(patente);
-    }
-
-    @Override
-    public void setPrecio(double precio) {
-        super.setPrecio(precio);
     }
 
     public void setColor(String color) {
         this.color = color;
     }
+
 }

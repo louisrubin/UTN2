@@ -1,13 +1,15 @@
 package EjemParcial1;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Concesionaria {
-    private ArrayList<Vehiculo> vehiculos;
+public class Concesionaria implements Serializable, java.io.Serializable {
+    LinkedList<Vehiculo> vehiculos;
 
     public Concesionaria(){
-        vehiculos = new ArrayList<>();
+        vehiculos = new LinkedList<>();
     }
     public void agregarVehiculo(Vehiculo vehiculo){
         vehiculos.add(vehiculo);
@@ -54,9 +56,9 @@ public class Concesionaria {
     }
 
 
-
-    private Vehiculo buscarVehiculo(String patente){
+    public Vehiculo buscarVehiculo(String patente){
         // metodo privado para buscar y retornar un vehiculo a través de una patente
+
         for (Vehiculo ve : vehiculos){
             if (ve.getPatente().equals(patente)){
                 return ve;
@@ -67,19 +69,50 @@ public class Concesionaria {
 
     private Vehiculo buscarVehiculo(String marca, String modelo){
         // metodo privado para buscar y retornar un vehiculo a través de un modelo y marca
-        for (Vehiculo veh : vehiculos){
-            if (veh.getMarca().equals(marca) && veh.getModelo().equals(modelo) ){
-                return veh;
+
+        for (Vehiculo ve : vehiculos){
+            if (ve.getMarca().equals(marca) && ve.getModelo().equals(modelo) ){
+                return ve;
             }
         }
         return null;
     }
 
-    public ArrayList<Vehiculo> getVehiculos() {
+    public LinkedList<Vehiculo> getVehiculos() {
         return vehiculos;
+    }
+    @Override
+    public void serializar(Concesionaria concesionaria) {
+        String archivo = Serializable.archivo;  // ubicacion proveniente de la interfaz "Serializable"
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(archivo));
+            objectOutputStream.writeObject(concesionaria);
+            objectOutputStream.close();
+            System.out.println("Serializado con exito.");
+        }catch (Exception e){
+            System.out.println("Error al serializar. --> " + e.getMessage() );
+            System.exit(12);
+        }
+    }
+    @Override
+    public ArrayList<Vehiculo> deserializar()  {
+        ArrayList<Vehiculo> vehiculosDeserializados;
+
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Serializable.archivo));
+            vehiculosDeserializados = (ArrayList<Vehiculo>) objectInputStream.readObject();
+            objectInputStream.close();
+
+            System.out.println("Deserializado con exito.");
+            return vehiculosDeserializados;
+        } catch (Exception e) {
+            System.out.println("Error al deserializar.");
+        }
+        return null;
     }
 
 
+/*
     public static void main(String[] args) {
         Concesionaria concesionaria = new Concesionaria();
         Scanner sc = new Scanner(System.in);
@@ -101,4 +134,6 @@ public class Concesionaria {
 
         concesionaria.mostrarInventario();
     }
+*/
+
 }
