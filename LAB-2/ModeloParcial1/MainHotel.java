@@ -9,6 +9,7 @@ public class MainHotel {
         String nombreHotel ="";
 
         try  {
+            //todo LEYENDO EL NOMBRE DEL HOTEL DESDE UN ARCHIVO
             Scanner sc2 = new Scanner(new File(MostrarInformacion.nombreHotel));
             nombreHotel = sc2.nextLine();
         } catch (Exception e){
@@ -21,23 +22,28 @@ public class MainHotel {
             // todo MENU DENTRO DE UN WHILE
             //todo dsakjdsa dsadjkasdjk asdkajs dkasjdlak sjdaskldj askl
 
-            System.out.println("----------------------------------------" +
+            System.out.print("----------------------------------------" +
                     "\n1. Ver Listado habitaciones " +
                     "\n2. Reservar habitacion" +
                     "\n3. Cancelar una reserva" +
                     "\n4. Guardar reservas en archivo" +
                     "\n5. Cargar reservas desde archivo" +
                     "\n6. SALIR" +
-                    "\n----------------------------------------");
-            int opc = sc.nextInt();
-            sc.nextLine();      // limpiar buffer
+                    "\n -->  ");
+                    int opc = sc.nextInt();
+                    sc.nextLine();      // limpiar buffer
+            System.out.println("\n----------------------------------------");
+
 
             switch (opc) {
                 case 1:
+                    // 1. Ver Listado habitaciones "
                     hotel.listadoHabit();
                     System.out.println();
                     break;
+
                 case 2:
+                    // 2. Reservar habitacion
                     System.out.print("Numero de Habitación: ");
                     int numHab = sc.nextInt();
                     sc.nextLine();      // limpiar buffer
@@ -51,6 +57,7 @@ public class MainHotel {
 
 
                 case 3:
+                    // 3. Cancelar una reserva
                     System.out.print("Numero de Habitación: ");
                     numHab = sc.nextInt();
                     sc.nextLine();      // limpiar buffer
@@ -62,18 +69,20 @@ public class MainHotel {
                     break;
 
                 case 4:
+                    // 4. Guardar reservas en archivo
                     String archivo = MostrarInformacion.archivoSerializador;
 
                     try {
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream( new FileOutputStream( archivo ));
                         objectOutputStream.writeObject(hotel);
-                        System.out.println("Serializado con exito.");
+                        System.out.println("\tSerializado con exito.");
                     } catch (Exception e) {
                         System.out.println("Error al guardar las reservas. ->> "+ e.getMessage());
                     }
                     break;
 
                 case 5:
+                    // 5. Cargar reservas desde archivo
                     archivo = MostrarInformacion.archivoSerializador;
                     try {
                         ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( archivo ));
@@ -81,13 +90,14 @@ public class MainHotel {
 
                         hotel = deserializado;
 
-                        System.out.println("Reservas cargadas con exito.");
+                        System.out.println("\tReservas cargadas con exito.");
                     } catch (Exception e) {
                         System.out.println("Error al cargar las reservas. ->> "+ e.getMessage());
                     }
                     break;
 
                 case 6:
+                    // 6. SALIR
                     System.exit(0);
                     break;
             }
@@ -120,10 +130,10 @@ class Hotel implements Serializable {
     }
 
     public void reservarHab(int nro, Scanner sc){
-        //todo RESERVA DE LA HABITACION
-        Huesped[] huespeds;
+        //todo RESERVA DE UNA HABITACION
+        Huesped[] huespeds;     // lista de Huesped que luego se usará para instancias Habitacion
 
-        if (habitaciones[nro-1].getOcupado()){
+        if (habitaciones[nro-1].getOcupado()){      // if getOcupado = true
             System.out.println("Habitacion ocupada.");
         } else {
             System.out.print("Cuantos huespedes quiere agregar: ");
@@ -149,12 +159,16 @@ class Hotel implements Serializable {
                 }
             }
 
-            habitaciones[nro -1] = new Habitacion(habitaciones[nro -1].getCantCamas(),
-                    cantPersonas, true, huespeds);
+            habitaciones[nro -1] =  new Habitacion(
+                                                    habitaciones[nro -1].getCantCamas(),
+                                                    cantPersonas,
+                                                    true,
+                                                    huespeds );
         }
     }
 
     public void listadoHabit(){
+        // lista de todos las habitaciones
         int x = 1;
         System.out.println("   {");
         for (Habitacion h : habitaciones){
@@ -165,6 +179,7 @@ class Hotel implements Serializable {
         System.out.println("   }");
     }
     public void listHuesp(Huesped[] lista) {
+        // lista de todos los huespedes a traves de una lista dada
         System.out.println("      {");
         for (Huesped h : lista){
             System.out.println("\t\t\t"+ " " + h.mostrarInfor());
@@ -177,10 +192,10 @@ class Hotel implements Serializable {
 class Habitacion implements MostrarInformacion, Serializable{
     private int cantCamas, cantHuespedes;
     private boolean ocupado;
-    private Huesped[] huespedes;
+    private Huesped[] huespedes;    // lista de los huespedes que tendrá una habitacion
 
     public Habitacion(){
-        // ..
+        // nada
     }
     public Habitacion(int cantCamas, int cantHuespedes, boolean ocupado, Huesped[] huespedes) {
         this.cantCamas = cantCamas;
@@ -248,13 +263,14 @@ class Huesped extends Persona implements MostrarInformacion, Serializable{
     };
 
     @Override
-    public String  mostrarInfor() {
+    public String mostrarInfor() {
         return "[nombre="+getNombre() + ",edad=" +getEdad() + "]";
     }
 
 }
 
 abstract class Persona implements Serializable {
+    // clase Persona
     private String nombre;
     private int edad;
     public Persona(String nombre) {
