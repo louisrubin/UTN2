@@ -8,7 +8,7 @@ public class ListaNodosMain {
         while (true) {
             System.out.println("-------------------------------");
             System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista\n 3- Agregar al Final\n" +
-                    " 9- SALIR\n --> ");
+                    " 4- Ultimo Valor\n 9- SALIR\n --> ");
             int opc = sc.nextInt();
             sc.nextLine();
             System.out.println("-------------------------------");
@@ -30,6 +30,11 @@ public class ListaNodosMain {
                     valor = sc.nextInt();
                     lista.agregarFinal(valor);
                     sc.nextLine();
+                    break;
+
+                case 4:
+                    if (lista.ultNodo == null) System.out.println("\t\tLista vacia");   // si no hay datos agregados
+                    else System.out.println(lista.ultNodo.dato);
                     break;
 
                 case 9:
