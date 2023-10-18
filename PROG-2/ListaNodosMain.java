@@ -5,14 +5,16 @@ public class ListaNodosMain {
         Scanner sc = new Scanner(System.in);
         Lista lista = new Lista();
 
+        /*
         lista.agregarFinal(3);  // para ir probando
         lista.agregarFinal(4);
         lista.agregarFinal(5);
+        */
 
         while (true) {
             System.out.println("-------------------------------");
             System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista\n 3- Agregar al Final\n" +
-                    " 4- Ultimo Valor\n 5- Existe Valor\n 9- SALIR\n --> ");
+                    " 4- Ultimo Elemento\n 5- Existe Valor\n 6- Eliminar posicion\n 9- SALIR\n --> ");
             int opc = sc.nextInt();
             sc.nextLine();
             System.out.println("-------------------------------");
@@ -37,15 +39,31 @@ public class ListaNodosMain {
                     break;
 
                 case 4:
-                    if (lista.ultNodo == null) System.out.println("\t\tLista vacia");   // si no hay datos agregados
-                    else System.out.println("Ult.: "+ lista.ultNodo.dato);
+                    // imprime el ultimo elemento de la lista
+                    System.out.print("Ult.: ");
+                    if (lista.ultNodo == null) System.out.println("--");
+                    else System.out.println(lista.ultNodo.dato);
                     break;
 
                 case 5:
+                    if (lista.primerNodo == null){    // verifica que la lista no esté vacia
+                        System.out.println("\t\tLista vacia");
+                        break;
+                    }
                     System.out.print("Valor a buscar: ");
                     valor = sc.nextInt();
                     sc.nextLine();
                     lista.existeValor(valor);
+                    break;
+                case 6:
+                    if (lista.primerNodo == null){    // verifica que la lista no esté vacia
+                        System.out.println("\t\tLista vacia");
+                        break;
+                    }
+                    System.out.print("Eliminar posicion: ");
+                    valor = sc.nextInt();
+                    sc.nextLine();
+                    lista.eliminarElem(valor);
                     break;
 
                 case 9:
@@ -59,10 +77,48 @@ public class ListaNodosMain {
 }
 
 class Lista {
-    Nodo primerNodo, ultNodo;
+    Nodo primerNodo, prevNodo, ultNodo;
 
     public Lista(){
         // ..
+    }
+
+    public void eliminarElem(int posicion){
+        if (primerNodo == null){    // verifica que la lista no esté vacia
+            System.out.println("\t\tLista vacia");
+            return;
+        }
+
+        int x = 1;   // contador
+        Nodo actual = primerNodo;   // puntero
+        while (true){   // saldra del while en el IF
+            if (posicion == 1){
+                // elimina el nodo en la primera posicion
+                if (actual.sig == null) {
+                    primerNodo = null;  // si solo hay un elemento
+                    ultNodo = null;
+                    return;
+                }
+                primerNodo = actual.sig;
+                return;
+            }
+            if (x == posicion){
+                // elimina la posicion actual != 1
+                prevNodo.sig = actual.sig;
+                if (actual.sig == null){
+                    ultNodo = prevNodo;    // actualiza ultimo Nodo de la lista
+                }
+                return;
+            }
+            if (actual.sig == null){
+                // final de la lista
+                System.out.println("No existe esa posicion.");
+                return;
+            }
+            x++;
+            prevNodo = actual;  // guarda el nodo anterior
+            actual = actual.sig;        // avanza una posicion
+        }
     }
 
     public void agregarInicio(int valor){
