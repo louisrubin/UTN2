@@ -12,11 +12,14 @@ public class ListaNodosMain {
         lista.agregarFinal(4);
         lista.agregarFinal(6);
 
+        //todo CREAR METODO PRIVADO VERIF LISTA VACIA, SIG IS NULL, Y OTRO
+
         while (true) {
             System.out.println("-------------------------------");
-            System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista\n 3- Agregar al Final\n" +
-                    " 4- Ultimo Elemento\n 5- Existe Valor\n 6- Eliminar posición\n" +
-                    " 7- Agregar Elemento\n 9- SALIR\n --> ");
+            System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista ("+lista.getLength() + ")" +
+                    "\n 3- Agregar al Final\n 4- Ultimo Elemento\n" +
+                    " 5- Existe Valor\n 6- Eliminar posición\n" +
+                    " 7- Agregar en posición\n 9- SALIR\n --> ");
             int opc = sc.nextInt();
             sc.nextLine();
             System.out.println("-------------------------------");
@@ -43,12 +46,12 @@ public class ListaNodosMain {
                 case 4:
                     // imprime el ultimo elemento de la lista
                     System.out.print("Ult.: ");
-                    if (lista.ultNodo == null) System.out.println("--");
-                    else System.out.println(lista.ultNodo.dato);
+                    if (lista.getUltNodo() == null) System.out.println("--");
+                    else System.out.println(lista.getUltNodo().dato);
                     break;
 
                 case 5:
-                    if (lista.primerNodo == null){    // verifica que la lista no esté vacia
+                    if (lista.getPrimerNodo() == null){    // verifica que la lista no esté vacia
                         System.out.println("\t\tLista vacía");
                         break;
                     }
@@ -58,18 +61,18 @@ public class ListaNodosMain {
                     lista.existeValor(valor);
                     break;
                 case 6:
-                    if (lista.primerNodo == null){    // verifica que la lista no esté vacia
+                    if (lista.getPrimerNodo() == null){    // verifica que la lista no esté vacia
                         System.out.println("\t\tLista vacía");
                         break;
                     }
-                    System.out.print("Eliminar posicion: ");
+                    System.out.print("Eliminar posición: ");
                     valor = sc.nextInt();
                     sc.nextLine();
                     lista.eliminarElem(valor);
                     break;
 
                 case 7:
-                    System.out.print("Posicion: ");
+                    System.out.print("Posición: ");
                     valor = sc.nextInt();
                     sc.nextLine();
                     System.out.print("Valor: ");
@@ -83,13 +86,12 @@ public class ListaNodosMain {
                     break;
             }
         }
-
     }
-
 }
 
 class Lista {
-    Nodo primerNodo, ultNodo;
+    private Nodo primerNodo, ultNodo;
+    private int length = 0;
 
     public Lista(){
         // ..
@@ -109,11 +111,15 @@ class Lista {
                 if (actual.sig == null) {
                     primerNodo = null;  // si solo hay un unico elemento
                     ultNodo = null;
+
+                    length --;
                     System.out.println("ok.");
                     return;
                 }
                 primerNodo = actual.sig;
                 actual.prev = null;         // el 'anterior' del primer elemento será null
+
+                length --;
                 System.out.println("ok.");
                 return;
             }
@@ -126,6 +132,7 @@ class Lista {
                 } else {
                     ultNodo = actual.prev;    // actualiza quien es el ultimo Nodo de la lista
                 }
+                length --;
                 System.out.println("ok.");
                 return;
             }
@@ -145,6 +152,8 @@ class Lista {
         if (primerNodo == null){    // verifica que si la lista está vacia
             primerNodo = new Nodo(valor);
             ultNodo = primerNodo;       // el ultimo nodo
+
+            length++;
             System.out.println("ok.");
             return;
         }
@@ -157,6 +166,8 @@ class Lista {
             nuevoNodo = new Nodo(null, valor, actual);
             actual.prev = nuevoNodo;
             primerNodo = nuevoNodo;
+
+            length++;
             System.out.println("ok.");
             return;
         }
@@ -166,6 +177,8 @@ class Lista {
                 nuevoNodo = new Nodo(actual.prev, valor, actual);
                 actual.prev.sig = nuevoNodo;
                 actual.prev = nuevoNodo;
+
+                length++;
                 System.out.println("ok.");
                 return;
             }
@@ -183,23 +196,31 @@ class Lista {
         if (primerNodo == null){    // verifica que la lista no esté vacia
             primerNodo = new Nodo(valor);
             ultNodo = primerNodo;       // el ultimo nodo
+
+            length++;
             return;
         }
         Nodo nuevoNodo = new Nodo(ultNodo, valor);   // enlaza el ultimo nodo con el nuevo
         ultNodo.sig = nuevoNodo;
         ultNodo = nuevoNodo;
+
+        length++;
     }
 
     public void agregarInicio(int valor){
         if (primerNodo == null){    // verifica que la lista no esté vacia
             primerNodo = new Nodo(valor);
             ultNodo = primerNodo;       // el ultimo nodo
+
+            length++;
             return;
         }
         Nodo nuevoNodo = new Nodo(valor, primerNodo);
 
         primerNodo.prev = nuevoNodo;    // el primer nodo asigna su 'anterior' al nuevo nodo
         primerNodo = nuevoNodo;     // el nuevo nodo pasa a ser el primero
+
+        length++;
     }
     public boolean existeValor(int valorParam){
         if (primerNodo == null){
@@ -235,11 +256,22 @@ class Lista {
         System.out.println(actual.dato);    // imprime el ultimo valor
     }
 
+    public Nodo getPrimerNodo() {
+        return primerNodo;
+    }
+
+    public Nodo getUltNodo() {
+        return ultNodo;
+    }
+
+    public int getLength() {
+        return length;
+    }
 }
 
 class Nodo {
-    int dato;
-    Nodo prev, sig;
+    protected int dato;
+    protected Nodo prev, sig;
 
     public Nodo(){
         // ..
