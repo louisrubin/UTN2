@@ -1,3 +1,5 @@
+package ListaNodos;
+
 import java.util.Scanner;
 
 public class ListaNodosMain {
@@ -5,16 +7,16 @@ public class ListaNodosMain {
         Scanner sc = new Scanner(System.in);
         Lista lista = new Lista();
 
-        /*
-        lista.agregarFinal(3);  // para ir probando
+
+        lista.agregarFinal(2);  // para ir probando
         lista.agregarFinal(4);
-        lista.agregarFinal(5);
-         */
+        lista.agregarFinal(6);
 
         while (true) {
             System.out.println("-------------------------------");
             System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista\n 3- Agregar al Final\n" +
-                    " 4- Ultimo Elemento\n 5- Existe Valor\n 6- Eliminar posición\n 9- SALIR\n --> ");
+                    " 4- Ultimo Elemento\n 5- Existe Valor\n 6- Eliminar posición\n" +
+                    " 7- Agregar Elemento\n 9- SALIR\n --> ");
             int opc = sc.nextInt();
             sc.nextLine();
             System.out.println("-------------------------------");
@@ -64,6 +66,16 @@ public class ListaNodosMain {
                     valor = sc.nextInt();
                     sc.nextLine();
                     lista.eliminarElem(valor);
+                    break;
+
+                case 7:
+                    System.out.print("Posicion: ");
+                    valor = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Valor: ");
+                    int valor2 = sc.nextInt();
+                    sc.nextLine();
+                    lista.agregarMedio(valor, valor2);
                     break;
 
                 case 9:
@@ -128,24 +140,54 @@ class Lista {
         }
     }
 
+    public void agregarMedio(int posicion, int valor){
+        //todo agrega atrás de la posicion elegida
+        if (primerNodo == null){    // verifica que si la lista está vacia
+            primerNodo = new Nodo(valor);
+            ultNodo = primerNodo;       // el ultimo nodo
+            System.out.println("ok.");
+            return;
+        }
+
+        int x = 1;      // indice
+        Nodo actual = primerNodo;   // puntero
+        Nodo nuevoNodo;
+
+        if (posicion == 1){
+            nuevoNodo = new Nodo(null, valor, actual);
+            actual.prev = nuevoNodo;
+            primerNodo = nuevoNodo;
+            System.out.println("ok.");
+            return;
+        }
+
+        while (true){   // saldra del while en el IF
+            if (x == posicion){
+                nuevoNodo = new Nodo(actual.prev, valor, actual);
+                actual.prev.sig = nuevoNodo;
+                actual.prev = nuevoNodo;
+                System.out.println("ok.");
+                return;
+            }
+            if (actual.sig == null){    // una longitud mayor a la lista agrega al final
+                agregarFinal(valor);
+                System.out.println("ok.");
+                return;
+            }
+            actual = actual.sig;        // avanza una posicion
+            x++;
+        }
+    }
+
     public void agregarFinal(int valor){
         if (primerNodo == null){    // verifica que la lista no esté vacia
             primerNodo = new Nodo(valor);
             ultNodo = primerNodo;       // el ultimo nodo
             return;
         }
-
-        Nodo actual = primerNodo;   // puntero
-        Nodo nuevoNodo;
-
-        while (true){   // saldra del while en el IF
-            if (actual.sig == null){
-                actual.sig = nuevoNodo = new Nodo(actual, valor);     // el sig del actual apunta al nuevo nodo
-                ultNodo = nuevoNodo;        // el nuevo nodo pasa a ser el ultimo
-                return;
-            }
-            actual = actual.sig;        // avanza una posicion
-        }
+        Nodo nuevoNodo = new Nodo(ultNodo, valor);   // enlaza el ultimo nodo con el nuevo
+        ultNodo.sig = nuevoNodo;
+        ultNodo = nuevoNodo;
     }
 
     public void agregarInicio(int valor){
