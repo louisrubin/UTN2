@@ -47,7 +47,7 @@ public class ListaNodosMain {
 
                 case 5:
                     if (lista.primerNodo == null){    // verifica que la lista no esté vacia
-                        System.out.println("\t\tLista vacia");
+                        System.out.println("\t\tLista vacía");
                         break;
                     }
                     System.out.print("Valor a buscar: ");
@@ -57,7 +57,7 @@ public class ListaNodosMain {
                     break;
                 case 6:
                     if (lista.primerNodo == null){    // verifica que la lista no esté vacia
-                        System.out.println("\t\tLista vacia");
+                        System.out.println("\t\tLista vacía");
                         break;
                     }
                     System.out.print("Eliminar posicion: ");
@@ -85,7 +85,7 @@ class Lista {
 
     public void eliminarElem(int posicion){
         if (primerNodo == null){    // verifica que la lista no esté vacia
-            System.out.println("\t\tLista vacia");
+            System.out.println("\t\tLista vacía");
             return;
         }
 
@@ -136,12 +136,11 @@ class Lista {
         }
 
         Nodo actual = primerNodo;   // puntero
-        Nodo nuevoNodo = new Nodo(valor);
+        Nodo nuevoNodo;
 
         while (true){   // saldra del while en el IF
             if (actual.sig == null){
-                actual.sig = nuevoNodo;     // el sig del actual apunta al nuevo nodo
-                nuevoNodo.prev = actual;    // el nuevo nodo apunta al anterior antes
+                actual.sig = nuevoNodo = new Nodo(actual, valor);     // el sig del actual apunta al nuevo nodo
                 ultNodo = nuevoNodo;        // el nuevo nodo pasa a ser el ultimo
                 return;
             }
@@ -155,15 +154,14 @@ class Lista {
             ultNodo = primerNodo;       // el ultimo nodo
             return;
         }
-        Nodo nuevoNodo = new Nodo(valor);
+        Nodo nuevoNodo = new Nodo(valor, primerNodo);
 
-        nuevoNodo.sig = primerNodo;     // nuevo nodo apunta al primer nodo
         primerNodo.prev = nuevoNodo;    // el primer nodo asigna su 'anterior' al nuevo nodo
         primerNodo = nuevoNodo;     // el nuevo nodo pasa a ser el primero
     }
     public boolean existeValor(int valorParam){
         if (primerNodo == null){
-            System.out.println("\t\tLista vacia");
+            System.out.println("\t\tLista vacía");
             return false;
         }
 
@@ -183,7 +181,7 @@ class Lista {
 
     public void imprimirLista(){
         if (primerNodo == null){
-            System.out.println("\t\tLista vacia");
+            System.out.println("\t\tLista vacía");
             return;
         }
 
@@ -199,12 +197,28 @@ class Lista {
 
 class Nodo {
     int dato;
-    Nodo sig, prev;
+    Nodo prev, sig;
 
     public Nodo(){
         // ..
     }
     public Nodo(int valor){
         this.dato = valor;
+    }
+    public Nodo(Nodo prev, int valor) {
+        // directamente se enlaza los nodos al instanciarlo
+        this.prev = prev;
+        this.dato = valor;
+    }
+    public Nodo(int valor, Nodo sig) {
+        // directamente se enlaza los nodos al instanciarlo
+        this.dato = valor;
+        this.sig = sig;
+    }
+    public Nodo(Nodo prev, int valor, Nodo sig) {
+        // directamente se enlaza los nodos al instanciarlo
+        this.prev = prev;
+        this.dato = valor;
+        this.sig = sig;
     }
 }
