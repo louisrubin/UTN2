@@ -19,7 +19,7 @@ public class ListaNodosMain {
             System.out.print(" 1- Agregar al Inicio\n 2- Imprimir Lista ("+lista.getLength() + ")" +
                     "\n 3- Agregar al Final\n 4- Ultimo Elemento\n" +
                     " 5- Existe Valor\n 6- Eliminar posición\n" +
-                    " 7- Agregar en posición\n 9- SALIR\n --> ");
+                    " 7- Agregar en posición\n 8- Modificar posición\n 9- SALIR\n --> ");
             int opc = sc.nextInt();
             sc.nextLine();
             System.out.println("-------------------------------");
@@ -81,6 +81,13 @@ public class ListaNodosMain {
                     lista.agregarMedio(valor, valor2);
                     break;
 
+                case 8:
+                    System.out.print("Posición: ");
+                    valor = sc.nextInt();
+                    sc.nextLine();
+                    lista.modifPosicion(valor, sc);
+                    break;
+
                 case 9:
                     System.exit(0);
                     break;
@@ -96,54 +103,80 @@ class Lista {
     public Lista(){
         // ..
     }
-
-    public void eliminarElem(int posicion){
+    protected boolean ifVacioThenMessage(){
         if (primerNodo == null){    // verifica que la lista no esté vacia
             System.out.println("\t\tLista vacía");
-            return;
+            return true;    // retorna true pq la lista SI está vacía
         }
+        return false;
+    }
 
-        int x = 1;   // contador
-        Nodo actual = primerNodo;   // puntero
-        while (true){   // saldra del while en el IF
-            if (posicion == 1){
-                // elimina el nodo en la primera posicion
-                if (actual.sig == null) {
-                    primerNodo = null;  // si solo hay un unico elemento
-                    ultNodo = null;
+    public void modifPosicion(int posiParam, Scanner sc){
+        if ( ! ifVacioThenMessage() ){
+            Nodo actual = primerNodo;   // puntero
+            int x = 1;  // indice
+            while (true) {
+                if (x == posiParam) {   // ubicacion encontrada
+                    System.out.print("Nuevo Valor: ");
+                    int nuevoValor = sc.nextInt();
+                    sc.nextLine();      // limpiar buffer
+                    actual.dato = nuevoValor;
+                    System.out.println("ok.");
+                    return;
+                }
+                if (actual.sig == null) {   // condicion de cierre While
+                    System.out.println("No existe esa posición.");
+                    return;
+                }
+                actual = actual.sig;    // avanza una posicion el puntero
+                x++;
+            }
+        }
+    }
+
+    public void eliminarElem(int posicion){
+        if ( ! ifVacioThenMessage() ){    // verifica que la lista no esté vacia
+
+            int x = 1;   // indice
+            Nodo actual = primerNodo;   // puntero
+            while (true){   // saldra del while en el IF
+                if (posicion == 1){
+                    // elimina el nodo en la primera posicion
+                    if (actual.sig == null) {
+                        primerNodo = null;  // si solo hay un unico elemento
+                        ultNodo = null;
+
+                        length --;
+                        System.out.println("ok.");
+                        return;
+                    }
+                    primerNodo = actual.sig;
+                    actual.prev = null;         // el 'anterior' del primer elemento será null
 
                     length --;
                     System.out.println("ok.");
                     return;
                 }
-                primerNodo = actual.sig;
-                actual.prev = null;         // el 'anterior' del primer elemento será null
+                if (x == posicion){     // elimina la posicion actual != 1
+                    actual.prev.sig = actual.sig;       // enlaza los nodos, eliminando el actual
 
-                length --;
-                System.out.println("ok.");
-                return;
-            }
-            if (x == posicion){
-                // elimina la posicion actual != 1
-                actual.prev.sig = actual.sig;       // enlaza los nodos, eliminando el actual
-
-                if (actual.sig != null){
-                    actual.sig.prev = actual.prev;
-                } else {
-                    ultNodo = actual.prev;    // actualiza quien es el ultimo Nodo de la lista
+                    if (actual.sig != null){
+                        actual.sig.prev = actual.prev;
+                    } else {
+                        ultNodo = actual.prev;    // actualiza quien es el ultimo Nodo de la lista
+                    }
+                    length --;
+                    System.out.println("ok.");
+                    return;
                 }
-                length --;
-                System.out.println("ok.");
-                return;
+                if (actual.sig == null){    // final de la lista
+                    System.out.println("No existe esa posición.");
+                    return;
+                }
+                x++;
+                actual.prev = actual;       // guarda el nodo anterior
+                actual = actual.sig;        // avanza una posicion
             }
-            if (actual.sig == null){
-                // final de la lista
-                System.out.println("No existe esa posición.");
-                return;
-            }
-            x++;
-            actual.prev = actual;       // guarda el nodo anterior
-            actual = actual.sig;        // avanza una posicion
         }
     }
 
@@ -163,6 +196,8 @@ class Lista {
         Nodo nuevoNodo;
 
         if (posicion == 1){
+            //agregarInicio(valor);       // reutiliza metodo
+            //return;
             nuevoNodo = new Nodo(null, valor, actual);
             actual.prev = nuevoNodo;
             primerNodo = nuevoNodo;
@@ -170,6 +205,7 @@ class Lista {
             length++;
             System.out.println("ok.");
             return;
+
         }
 
         while (true){   // saldra del while en el IF
@@ -223,22 +259,19 @@ class Lista {
         length++;
     }
     public boolean existeValor(int valorParam){
-        if (primerNodo == null){
-            System.out.println("\t\tLista vacía");
-            return false;
-        }
+        if ( ! ifVacioThenMessage() ){
+            Nodo actual = primerNodo;   // puntero
 
-        Nodo actual = primerNodo;   // puntero
+            while (actual != ultNodo.sig){   // saldra del while en el IF
+                if (actual.dato == valorParam) {
+                    System.out.println(true);
+                    return true;
+                }
+                actual = actual.sig;        // avanza una posicion
 
-        while (actual != ultNodo.sig){   // saldra del while en el IF
-            if (actual.dato == valorParam) {
-                System.out.println("Si existe.");
-                return true;
             }
-            actual = actual.sig;        // avanza una posicion
-
         }
-        System.out.println("No existe.");
+        System.out.println(false);
         return false;
     }
 
