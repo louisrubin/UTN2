@@ -11,8 +11,12 @@ public class ListaNodosMain {
         lista.agregarFinal(2);  // para ir probando
         lista.agregarFinal(4);
         lista.agregarFinal(6);
+        lista.agregarFinal(8);
+        lista.agregarFinal(10);
 
-        //todo CREAR METODO PRIVADO VERIF LISTA VACIA, SIG IS NULL, Y OTRO
+        lista.imprimirLista();
+        lista.invertirLista();
+        lista.imprimirListaInverso();
 
         while (true) {
             System.out.println("-------------------------------");
@@ -275,19 +279,75 @@ class Lista {
         return false;
     }
 
-    public void imprimirLista(){
-        if (primerNodo == null){
-            System.out.println("\t\tLista vacía");
-            return;
+    public void invertirLista() {
+        /*
+        // metodo para invertir una lista (ultimo -> primero)
+        if ( ! ifVacioThenMessage() ){
+            Nodo actual = primerNodo;   // puntero 1
+            Nodo actualPrev = ultNodo;     // puntero 2
+            Nodo aux1, aux2;
+
+            actual.imprimirNodo();
+            actualPrev.imprimirNodo();
+
+            int x = 1;
+            while (actual.sig != null) {
+                aux1 = actual;       // guarda el actual nodo
+                aux2 = actualPrev;
+
+                primerNodo = ultNodo;
+
+
+                actual = actualPrev;        // se asigna al puntero que regresa
+                actualPrev = aux1;
+
+                if (x == 1 || x == getLength() ){
+                    // la 1ra y ultima vuelta tienen un camino diferente ( primerNodo.prev es null por eso)
+                    actual.prev = (aux1.prev != null) ? aux1.prev : null;
+                    actual.sig = (aux1.sig != null) ? aux1.sig : null;
+
+                    actualPrev.prev = (aux2.prev != null) ? aux2.prev : null;
+                    actualPrev.sig = (aux2.sig != null) ? aux2.sig : null;
+                } else {    // vuelta > 1
+                    actual.prev = aux1.prev;
+                    actual.sig = aux1.sig;
+
+                    actualPrev.prev = aux2.prev;
+                    actualPrev.sig = aux2.sig;
+                }
+
+                actual = actual.sig;
+                actualPrev = actualPrev.prev;
+
+                System.out.println(actual.dato);
+                x++;
+            }
         }
 
-        Nodo actual = primerNodo;   // puntero
-        while (actual.sig != null){
-            System.out.print(actual.dato + ", ");
-            actual = actual.sig;
-        }
-        System.out.println(actual.dato);    // imprime el ultimo valor
+         */
     }
+
+    public void imprimirLista(){
+        if ( ! ifVacioThenMessage() ){
+            Nodo actual = primerNodo;   // puntero
+            while (actual.sig != null){
+                System.out.print(actual.dato + ", ");
+                actual = actual.sig;
+            }
+            System.out.println(actual.dato);    // imprime el ultimo valor encontrado
+        }
+    }
+    public void imprimirListaInverso(){
+        if ( ! ifVacioThenMessage() ) {
+            Nodo actual = ultNodo;   // puntero
+            while (actual.prev != null){
+                System.out.print(actual.dato + ", ");
+                actual = actual.prev;
+            }
+            System.out.println(actual.dato);    // imprime el ultimo valor encontrado
+        }
+    }
+
 
     public Nodo getPrimerNodo() {
         return primerNodo;
@@ -298,6 +358,7 @@ class Lista {
     }
 
     public int getLength() {
+        // longitud de la lista
         return length;
     }
 }
@@ -327,5 +388,18 @@ class Nodo {
         this.prev = prev;
         this.dato = valor;
         this.sig = sig;
+    }
+    public void imprimirNodo(){
+        // imprime los datos del nodo actual
+
+        if (prev == null) System.out.print( "--, ");
+        else System.out.print(prev.dato + ", ");
+
+        System.out.print(dato + ", ");
+
+        if (sig == null) System.out.print( "--");
+        else System.out.print(sig.dato);
+
+        System.out.println();
     }
 }
