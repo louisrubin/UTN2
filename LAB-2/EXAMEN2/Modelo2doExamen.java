@@ -1,4 +1,4 @@
-//package EXAMEN2;
+package EXAMEN2;
 import java.util.ArrayList;
 import java.sql.*;
 // import java.util.Scanner;
@@ -13,27 +13,26 @@ public class Modelo2doExamen {  // HOSPITAL
 
 
     public static void main(String[] args) {
-        String url = "jdbc:mariadb://localhost:33061/hospital_db";
-        String usuario = "root";
-        String passw = "";
 
         Modelo2doExamen hospital = new Modelo2doExamen();
 
         // todo AGREGAR CONSTRUCTORES QUE NO ACEPTEN ID PARA AL AGREGAR EN LA BD SE ASIGNE AUTO
 
-        Paciente paciente = new Paciente(4, "juan", 27);
+        //Paciente paciente = new Paciente(4, "juan", 27);
 
         try {
-            Connection conexion = DriverManager.getConnection(url, usuario, passw);
+            //Connection conexion = DriverManager.getConnection(url, usuario, passw);
 
-            hospital.cargardesdeBD(conexion);
+            hospital.cargardesdeBD();
             // hospital.imprimirPacientes();
-            hospital.asignarDoctorCabecera(paciente, hospital.listaDoctores.get(1));
+            //hospital.asignarDoctorCabecera(paciente, hospital.listaDoctores.get(1));
             //hospital.agregarPaciente(paciente, conexion);
-            hospital.imprimirPacientes();
+            //hospital.imprimirPacientes(null);
+            hospital.mostrarPacientesEntreFechas("2023/01/01", "2023/11/15");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ERROR AL CONECTAR CON LA BD");
         }
     }
 
@@ -42,43 +41,56 @@ public class Modelo2doExamen {  // HOSPITAL
         listaPacientes = new ArrayList <>();
     }
 
-    public void agregarPaciente(Paciente paciente, Connection conex){
+    public void agregarPaciente(Paciente paciente){
         String consulta = "INSERT INTO pacientes (id, nombre, edad, historial_medico, doctor)" +
                 " VALUES ("+ paciente.getId() + ",'" + paciente.getNombre() + "',"
                 + paciente.getEdad() + ",'"+ paciente.getHistorialMedico() +
                 "'," + paciente.getDoctorAsignado().getId() + ");";
-        System.out.println(consulta);
+        //System.out.println(consulta);
 
         try {
-            Statement stat = conex.createStatement();
-            stat.executeUpdate(consulta);      // executeUpdate
+            DbHelper.consultaSinRes(consulta);
             listaPacientes.add(paciente);
-
-            stat.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("ERROR AL AGREGAR PACIENTE.\n -> " + e.getMessage());
         }
     }
 
-    public void imprimirPacientes(){
-        for ( Paciente pac : listaPacientes) {
-            System.out.println(pac.toString()); // imprime sus datos
+    public void imprimirPacientes(ResultSet pacientEntreFechas){
+        if (pacientEntreFechas == null){
+            for ( Paciente pac : listaPacientes) {
+                System.out.println(pac.toString()); // imprime sus datos
+            }
+        }
+        else {
+            try {
+                while (pacientEntreFechas.next()){      // imprime los pacientes pasados por parametro
+                    System.out.println("[" + pacientEntreFechas.getInt("id") +
+                            ", " + pacientEntreFechas.getString("nombre").toUpperCase() +
+                            ", " + pacientEntreFechas.getInt("edad") +
+                            ", " + pacientEntreFechas.getString("fecha_ingreso")
+                            + "]"
+                            );
+                }
+            } catch (SQLException e){
+                System.out.println("ERROR AL MOSTRAR PACIENTES ENTRE FECHAS.");
+            }
         }
     }
 
     public void asignarDoctorCabecera(Paciente paciente, Doctor nuevoDoctor) {
-
         paciente.setDoctorAsignado(nuevoDoctor);
     }
 
     public void mostrarPacientesEntreFechas(String fechaInicio, String fechaFin) {
         // select * from pacientes where fecha_ingreso >= '2011/02/25' and fecha_ingreso <= '2024/02/27'
-        String consulta = "select * from pacientes where fecha_ingreso >= " + fechaInicio +
-                " and fecha_ingreso <= " + fechaFin ;
-
+        String consulta = "select * from pacientes where fecha_ingreso >= '" + fechaInicio +
+                "' and fecha_ingreso <= '" + fechaFin + "'" ;
+        ResultSet resultSet = DbHelper.consultaConRes(consulta);
+        imprimirPacientes(resultSet);
     }
 
-    public void cargardesdeBD(Connection conex){
+    public void cargardesdeBD(){
         String consultaDoc = "select * from doctores;";
         String consultaPac = "select * from pacientes;";
 
@@ -268,8 +280,6 @@ class DbHelper {
     private static String usuario = "root";
     private static String passw = "";
 
-    private static String consulta;
-
     private static Connection conex;
     private static Statement stat;
 
@@ -280,7 +290,7 @@ class DbHelper {
             stat.executeUpdate(consultaParam);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR AL CONECTAR CON LA BD -> Helper");
         }
     }
     public static ResultSet consultaConRes(String consultaParam){
@@ -291,7 +301,7 @@ class DbHelper {
             result = stat.executeQuery(consultaParam);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR AL CONECTAR CON LA BD -> Helper");
         }
         return result;
     }
