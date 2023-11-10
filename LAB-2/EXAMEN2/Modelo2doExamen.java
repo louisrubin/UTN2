@@ -16,25 +16,20 @@ public class Modelo2doExamen {  // HOSPITAL
         String usuario = "root";
         String passw = "";
 
+        Modelo2doExamen hospital = new Modelo2doExamen();
+
+        // todo AGREGAR CONSTRUCTORES QUE NO ACEPTEN ID PARA AL AGREGAR EN LA BD SE ASIGNE AUTO
+
+        Paciente paciente = new Paciente(4, "juan", 27);
+
         try {
             Connection conexion = DriverManager.getConnection(url, usuario, passw);
-            Statement statement = conexion.createStatement();
 
-            String consulta = "select * from pacientes";
-            ResultSet result = statement.executeQuery(consulta);
-
-            while (result.next()) {
-                System.out.println("ID: "+ result.getString("id") +
-                        ", nombre: " + result.getString("nombre") +
-                        ", edad: " + result.getString("edad") +
-                        ", fecha Ingreso: " + result.getString("fecha_ingreso") +
-                        ", doctorID: " + result.getString("doctor")
-                );
-            }
-
-            result.close();
-            statement.close();
-            conexion.close();
+            hospital.cargardesdeBD(conexion);
+            // hospital.imprimirPacientes();
+            hospital.asignarDoctorCabecera(paciente, hospital.listaDoctores.get(1));
+            //hospital.agregarPaciente(paciente, conexion);
+            hospital.imprimirPacientes();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,12 +41,25 @@ public class Modelo2doExamen {  // HOSPITAL
         listaPacientes = new ArrayList <>();
     }
 
-    public void agregarPaciente(Paciente paciente){
-        listaPacientes.add(paciente);
+    public void agregarPaciente(Paciente paciente, Connection conex){
+        String consulta = "INSERT INTO pacientes (id, nombre, edad, historial_medico, doctor)" +
+                " VALUES ("+ paciente.getId() + ",'" + paciente.getNombre() + "',"
+                + paciente.getEdad() + ",'"+ paciente.getHistorialMedico() +
+                "'," + paciente.getDoctorAsignado().getId() + ");";
+        System.out.println(consulta);
 
+        try {
+            Statement stat = conex.createStatement();
+            stat.executeUpdate(consulta);      // executeUpdate
+            listaPacientes.add(paciente);
+
+            stat.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void listarPacientes(){
+    public void imprimirPacientes(){
         for ( Paciente pac : listaPacientes) {
             System.out.println(pac.toString()); // imprime sus datos
         }
@@ -68,6 +76,55 @@ public class Modelo2doExamen {  // HOSPITAL
 
     }
 
+    public void cargardesdeBD(Connection conex){
+        String consultaDoc = "select * from doctores;";
+        String consultaPac = "select * from pacientes;";
+        try {
+            Statement stat1 = conex.createStatement();      // 2 Statement pq al usar uno se cierra al toke
+            Statement stat2 = conex.createStatement();      // y necesito ocuparlo 2 veces, entonces creo 2 diferentes
+
+            ResultSet resultDoc = stat1.executeQuery(consultaDoc);
+            ResultSet resultPac = stat2.executeQuery(consultaPac);
+
+            // CARGA DE DOCTORES PRIMERO
+            while (resultDoc.next()){
+                listaDoctores.add( new Doctor(
+                        resultDoc.getInt("id"),
+                        resultDoc.getString("nombre"),
+                        resultDoc.getInt("edad"),
+                        resultDoc.getString("especialidad")
+                ));
+            }
+
+            // CARGA DE PACIENTES
+            while (resultPac.next()) {
+                Paciente paci = new Paciente(resultPac.getInt("id"));  // asigno los atributos
+                paci.setNombre(resultPac.getString("nombre"));         // que se suponen son obligatorios
+                paci.setEdad(resultPac.getInt("edad"));
+
+                if (resultPac.getString("historial_medico") != null ){
+                    paci.setHistorialMedico(resultPac.getString("historial_medico"));
+                }
+                if (resultPac.getString("fecha_ingreso") != null){
+                    paci.setFecha_ingreso(resultPac.getString("fecha_ingreso"));
+                }
+
+                for (Doctor doc : listaDoctores){       // asignar doctor tomando el ID
+                    if (doc.getId() == resultPac.getInt("doctor") ) {
+                        asignarDoctorCabecera(paci, doc);
+                        break;
+                    }
+                }
+                listaPacientes.add(paci);       // agrego el paciente con todos sus datos a la lista
+            }
+
+            stat1.close();
+            stat2.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList <Doctor> getListaDoctores() {
         return listaDoctores;
     }
@@ -81,17 +138,21 @@ abstract class Persona {
     private int id, edad;
     private String nombre;
 
-    public static int sigId = 0;
+    //public static int sigId = 1;
 
     public Persona() {
         //..
     }
-    public Persona(String nombre){
-        this.id = sigId++;
+    public Persona(int id) {
+        this.id = id;
+    }
+
+    public Persona(int id, String nombre){
+        this.id = id++;
         this.nombre = nombre;
     }
-    public Persona(String nombre, int edad){
-        this.id = sigId++;
+    public Persona(int id, String nombre, int edad){
+        this.id = id;
         this.nombre = nombre;
         this.edad = edad;
     }
@@ -104,6 +165,21 @@ abstract class Persona {
         this.edad = edad;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
 
     @Override
     public String toString() {
@@ -112,20 +188,20 @@ abstract class Persona {
 }
 
 class Paciente extends Persona {
-    private String historialMedico;
+    private String historialMedico, fecha_ingreso;
     private Doctor doctorAsignado;
 
-    public Paciente() {
-        // ..
+    public Paciente(int id) {
+        super(id);
     }
-    public Paciente(String nombre){
-        super(nombre);
+    public Paciente(int id, String nombre){
+        super(id, nombre);
     }
-    public Paciente(String nombre, int edad){
-        super(nombre, edad);
+    public Paciente(int id, String nombre, int edad){
+        super(id, nombre, edad);
     }
-    public Paciente(String nombre, int edad, String historial){
-        super(nombre, edad);
+    public Paciente(int id, String nombre, int edad, String historial){
+        super(id, nombre, edad);
         this.historialMedico = historial;
     }
 
@@ -135,7 +211,12 @@ class Paciente extends Persona {
 
     @Override
     public String toString() {
-        return "[" + super.toString() + ", "+ historialMedico + "]";
+        return "[" + super.toString() + ", "+ historialMedico + ", " + fecha_ingreso +
+                ", Doctor -> (" +  doctorAsignado.getNombre().toUpperCase() + ") ]";
+    }
+
+    public void setFecha_ingreso(String fecha_ingreso) {
+        this.fecha_ingreso = fecha_ingreso;
     }
 
     public void setDoctorAsignado(Doctor doctorAsignado) {
@@ -157,11 +238,16 @@ class Doctor extends Persona {
     public Doctor () {
         // ..
     }
-    public Doctor (String nombre, int edad) {
-        super(nombre, edad);
+    public Doctor (int id) {
+        super(id);
     }
-    public Doctor (String nombre, int edad, String especialidad) {
-        super(nombre, edad);
+    public Doctor (int id, String nombre, int edad) {
+        super(id, nombre, edad);
+        this.setId(id);
+    }
+    public Doctor (int id, String nombre, int edad, String especialidad) {
+        super(id, nombre, edad);
+        this.setId(id);
         this.especialidad = especialidad;
     }
 
