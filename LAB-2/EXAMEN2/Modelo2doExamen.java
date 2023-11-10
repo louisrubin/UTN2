@@ -1,10 +1,11 @@
-package EXAMEN2;
+//package EXAMEN2;
 import java.util.ArrayList;
 import java.sql.*;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 // https://docs.google.com/document/d/129jn4i_uvzkT1SyUb-AAr63MUdk4ScwRs8z_8QSLjww/edit
 // https://classroom.google.com/w/NTA1NjEyNzgwNTU0/t/all
+// https://mariadb.com/downloads/connectors/connectors-data-access/java8-connector/
 
 public class Modelo2doExamen {  // HOSPITAL
     private ArrayList<Paciente> listaPacientes;
@@ -12,7 +13,7 @@ public class Modelo2doExamen {  // HOSPITAL
 
 
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/hospital_db";
+        String url = "jdbc:mariadb://localhost:33061/hospital_db";
         String usuario = "root";
         String passw = "";
 
@@ -66,6 +67,7 @@ public class Modelo2doExamen {  // HOSPITAL
     }
 
     public void asignarDoctorCabecera(Paciente paciente, Doctor nuevoDoctor) {
+
         paciente.setDoctorAsignado(nuevoDoctor);
     }
 
@@ -79,13 +81,11 @@ public class Modelo2doExamen {  // HOSPITAL
     public void cargardesdeBD(Connection conex){
         String consultaDoc = "select * from doctores;";
         String consultaPac = "select * from pacientes;";
+
+        ResultSet resultDoc = DbHelper.consultaConRes(consultaDoc);
+        ResultSet resultPac = DbHelper.consultaConRes(consultaPac);
+
         try {
-            Statement stat1 = conex.createStatement();      // 2 Statement pq al usar uno se cierra al toke
-            Statement stat2 = conex.createStatement();      // y necesito ocuparlo 2 veces, entonces creo 2 diferentes
-
-            ResultSet resultDoc = stat1.executeQuery(consultaDoc);
-            ResultSet resultPac = stat2.executeQuery(consultaPac);
-
             // CARGA DE DOCTORES PRIMERO
             while (resultDoc.next()){
                 listaDoctores.add( new Doctor(
@@ -118,8 +118,6 @@ public class Modelo2doExamen {  // HOSPITAL
                 listaPacientes.add(paci);       // agrego el paciente con todos sus datos a la lista
             }
 
-            stat1.close();
-            stat2.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -262,5 +260,39 @@ class Doctor extends Persona {
 
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
+    }
+}
+
+class DbHelper {
+    private static String url = "jdbc:mysql://localhost:3306/hospital_db";
+    private static String usuario = "root";
+    private static String passw = "";
+
+    private static String consulta;
+
+    private static Connection conex;
+    private static Statement stat;
+
+    public static void consultaSinRes(String consultaParam) {
+        try {
+            conex = DriverManager.getConnection(url, usuario, passw);
+            stat = conex.createStatement();
+            stat.executeUpdate(consultaParam);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static ResultSet consultaConRes(String consultaParam){
+        ResultSet result = null;
+        try {
+            conex = DriverManager.getConnection(url, usuario, passw);
+            stat = conex.createStatement();
+            result = stat.executeQuery(consultaParam);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
