@@ -1,8 +1,8 @@
 package EXAMEN2;
-import javax.print.Doc;
+
 import java.util.ArrayList;
 import java.sql.*;
-// import java.util.Scanner;
+import java.util.Scanner;
 
 // https://docs.google.com/document/d/129jn4i_uvzkT1SyUb-AAr63MUdk4ScwRs8z_8QSLjww/edit
 // https://classroom.google.com/w/NTA1NjEyNzgwNTU0/t/all
@@ -15,32 +15,56 @@ public class Modelo2doExamen {  // HOSPITAL
 
     public static void main(String[] args) {        // HOSPITAL
         Modelo2doExamen hospital = new Modelo2doExamen();
+        Scanner sc = new Scanner(System.in);
 
-        // todo AGREGAR CONSTRUCTORES QUE NO ACEPTEN ID PARA AL AGREGAR EN LA BD SE ASIGNE AUTO
 
         try {
 
             hospital.cargardesdeBD();   // carga todos los doctores y pacientes desde la BD
             Paciente paci1 = new Paciente(2, "camila", 25, "historial camila",
-                    "2023/03/19", hospital.listaDoctores.get(0));
+                    "2023-03-19", hospital.listaDoctores.get(1));
             Paciente paci2 = new Paciente(3, "john", 46, "historial john",
-                    "2021/07/03", hospital.listaDoctores.get(1) );
+                    "2023-07-03", hospital.listaDoctores.get(1) );
             Paciente paci3 = new Paciente(4, "flea", 56, "historial flea",
-                    "2022/11/28", hospital.listaDoctores.get(1) );
+                    "2023-11-28", hospital.listaDoctores.get(1) );
 
 
-            // hospital.imprimirPacientes();
-            //hospital.asignarDoctorCabecera(paciente, hospital.listaDoctores.get(1));
-            //hospital.agregarPaciente(paciente, conexion);
-
-            //hospital.mostrarPacientesEntreFechas("2023/01/01", "2023/11/15");
-            //hospital.eliminarPaciente("estropajo");
+            System.out.println("ENTER PARA CONTINUAR.");
+            sc.nextLine();
 
             hospital.agregarPaciente(paci1);
             hospital.agregarPaciente(paci2);
             hospital.agregarPaciente(paci3);
+            System.out.println("5- 3 Pacientes agregados a la BD.");
+
+            System.out.println("\nENTER PARA CONTINUAR.");
+            sc.nextLine();
 
             hospital.imprimirPacientes(null);
+            System.out.println("6- Pacientes listados.");
+
+            System.out.println("\nENTER PARA CONTINUAR.");
+            sc.nextLine();
+
+            hospital.asignarDoctorCabecera(paci2, hospital.listaDoctores.get(0));
+            System.out.println("7- Doctor '"+ hospital.listaDoctores.get(0).getNombre() +
+                    "' asignado al paciente '" + paci2.getNombre() +"'");
+
+            System.out.println("\nENTER PARA CONTINUAR.");
+            sc.nextLine();
+
+            System.out.println("8- Mostrando pacientes que ingresaron entre 2023-01-01 y 2023-07-18");
+            hospital.mostrarPacientesEntreFechas("2023-01-01" , "2023-07-18");
+
+            System.out.println("\nENTER PARA CONTINUAR.");
+            sc.nextLine();
+
+            hospital.eliminarPaciente("camila");
+            System.out.println("9- Paciente 'camila' eliminado de la BD.");
+
+            System.out.println("\nENTER PARA CONTINUAR.");
+            sc.nextLine();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,6 +113,9 @@ public class Modelo2doExamen {  // HOSPITAL
     }
 
     public void asignarDoctorCabecera(Paciente paciente, Doctor nuevoDoctor) {
+        String consulta = "UPDATE pacientes SET doctor = " + nuevoDoctor.getId() + " WHERE id = " +
+                paciente.getId() + ";";
+        DbHelper.consultaSinRes(consulta);
         paciente.setDoctorAsignado(nuevoDoctor);
     }
 
@@ -103,7 +130,7 @@ public class Modelo2doExamen {  // HOSPITAL
     public void eliminarPaciente(String nombre){
         String consulta = "DELETE FROM pacientes WHERE nombre = '" + nombre + "'";
         DbHelper.consultaSinRes(consulta);
-        System.out.println("Paciente '"+ nombre.toUpperCase() +"' eliminado de la BD.");
+        // System.out.println("Paciente '"+ nombre.toUpperCase() +"' eliminado de la BD.");
     }
 
     public void cargardesdeBD(){
@@ -239,19 +266,6 @@ class Paciente extends Persona {
         this.historialMedico = historial;
         this.fecha_ingreso = fecha_ingreso;
         this.doctorAsignado = doctor;
-        /*try {
-            ResultSet countId = DbHelper.consultaConRes("SELECT COUNT(*) FROM pacientes WHERE id = '" + id + "';");
-            if ( countId.getInt("COUNT(*)") > 0 ){  // si ya existe esa ID
-                ResultSet ultId = DbHelper.consultaConRes("SELECT MAX(id) from pacientes;");
-                this.setId( ultId.getInt("id") + 1 );
-            } else {
-                this.setId(id);
-                System.out.println("Ya existe esa ID. Asignando una nueva.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println("ERROR ASIGNANDO ID AL PACIENTE. -> " + e.getMessage());
-        }*/
     }
 
     public String getHistorialMedico() {
