@@ -2,6 +2,8 @@ package Arboles;
 
 public class ArbolBinINT {
     NodoBinInt raiz;
+    String[] niveles;
+    int altura;
 
     public ArbolBinINT(){
         raiz = null;
@@ -23,8 +25,52 @@ public class ArbolBinINT {
         arbolBin.agregar(5);
         arbolBin.agregar(6);
 
-        arbolBin.imprPostOrd(arbolBin.raiz);
+        //arbolBin.imprPostOrd(arbolBin.raiz);
+
+        arbolBin.returnAltura();    // setea y retorna la altura (cant niveles) del arbol
+        arbolBin.imprimirNivel();
     }
+
+    // ===================== EJERCICIO 2 =====================
+    // https://www.youtube.com/watch?v=9o7xJfYqWSI&ab_channel=andresflorez
+
+    public void imprimirNivel(){
+        niveles  = new String[altura+1];
+        imprimirNivel(raiz, 0);
+
+        for (String a : niveles){
+            if (a != null)  System.out.print(a);
+        }
+    }
+
+    private void imprimirNivel(NodoBinInt nodo, int pos) {
+        if (nodo != null){
+            niveles[pos] = nodo.data + ", "+ ( (niveles[pos] != null) ? niveles[pos] : "" );
+            imprimirNivel(nodo.nodoDer, pos+1);
+            imprimirNivel(nodo.nodoIzq, pos+1);
+        }
+
+    }
+
+    public int returnAltura(){
+        // metodo para obtener cantidad de niveles de una arbol binario
+        altura = 0;
+        returnAltura(raiz, 1);
+        return this.altura;
+    }
+
+    private void returnAltura(NodoBinInt nodo, int pos){    // recursividad
+        if (nodo != null){
+            returnAltura(nodo.nodoIzq, pos+1);
+            if (pos > altura) {
+                altura = pos;
+            }
+            returnAltura(nodo.nodoDer, pos+1);
+        }
+    }
+
+    // ===================== FIN EJER 2 =====================
+
 
     public void agregar(int valor){
         this.raiz = agregarRecursiv(this.raiz, valor);  // la raiz pq tiene que comparar con ese
@@ -49,10 +95,6 @@ public class ArbolBinINT {
     }
 
     public void imprPreOrd(NodoBinInt nodo){  // pre-orden
-        /*if (this.raiz == null) {
-            System.out.printf("Vacío.");
-            return;
-        }*/
         System.out.print(nodo.data + ", ");
         if (nodo.nodoIzq != null){
             imprPreOrd(nodo.nodoIzq);
