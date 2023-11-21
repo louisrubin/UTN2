@@ -1,4 +1,4 @@
-package ListaNodos;
+package Nodos;
 
 import java.util.Scanner;
 
