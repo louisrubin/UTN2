@@ -21,15 +21,36 @@ public class HashListasEnlazadas {
     }
 
     public void agregar(int key, String valor) {
-        int index = 0;
-        int hashCode = hashCode(key);   // indice
+        int indice = hashCode(key);   // indice
 
-        tabla[hashCode].agregarFinal(valor);    // agrega al final de la lista enlazada
+        if (tabla[indice] == null) {
+            tabla[indice] = new ListaStr();     // crea una lista en la posicion del array
+        }
+
+        tabla[indice].agregarFinal(valor);    // agrega al final de la lista enlazada
     }
 
     private int hashCode(int key) {
         return key % sizeTabla;     // retorna un entero que es la ubicación hasheada
     }
 
+    public void get(int key) {
+        System.out.print("[");
+        tabla[ hashCode(key) ].imprimirLista();
+        System.out.print("]");
+    }
+
+    public void imprimirValor(){
+        //
+    }
+
+    public static void main(String[] args) {
+        HashListasEnlazadas lista = new HashListasEnlazadas();
+
+        lista.agregar(100, "SpongeBob");    // hash -> 0
+        lista.agregar(550, "Gary");         // hash -> 0
+
+        lista.get(100);     // imprime todos los valores en hash 100 -> 0
+    }
 
 }
