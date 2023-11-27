@@ -11,6 +11,24 @@ public class ListaStr {
         agregarFinal(valor);
     }
 
+    public String getValor(int indice){     //  NO ENTIENDO LO QUE DEBERIA FUNCIONAR ESTO xd
+        int posi = 1;
+        if ( ! ifVacioThenMessage() ){
+
+            Nodo actual = primerNodo;
+
+            while (posi <= length){
+                if (indice == posi) {
+                    return actual.datoStr;
+                }
+                actual = actual.sig;
+                posi++;
+            }
+        }
+        return null;
+    }
+
+
     protected boolean ifVacioThenMessage(){
         if (primerNodo == null){    // verifica que la lista no esté vacia
             System.out.println("\t\tLista vacía");

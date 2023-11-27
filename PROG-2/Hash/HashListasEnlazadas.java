@@ -13,19 +13,27 @@ public class HashListasEnlazadas {
     public HashListasEnlazadas() {        // por defecto: tamaño de 10
         tabla = new ListaStr[10];         // listas enlazada
         sizeTabla = 10;
+
+        for (int x=0; x < sizeTabla; x++){
+            tabla[x] = new ListaStr();      // crea una lista en la posicion del array
+        }
     }
 
     public HashListasEnlazadas(int size) {
         tabla = new ListaStr[size];         // listas enlazada
         sizeTabla = size;
+
+        for (int x=0; x < sizeTabla; x++){
+            tabla[x] = new ListaStr();      // crea una lista en la posicion del array
+        }
     }
 
     public void agregar(int key, String valor) {
         int indice = hashCode(key);   // indice
 
-        if (tabla[indice] == null) {
-            tabla[indice] = new ListaStr();     // crea una lista en la posicion del array
-        }
+        /*if (tabla[indice] == null) {
+            tabla[indice] = new ListaStr();
+        }*/
 
         tabla[indice].agregarFinal(valor);    // agrega al final de la lista enlazada
     }
@@ -34,9 +42,9 @@ public class HashListasEnlazadas {
         return key % sizeTabla;     // retorna un entero que es la ubicación hasheada
     }
 
-    public void get(int key) {
+    public void get(int clave) {
         System.out.print("[");
-        tabla[ hashCode(key) ].imprimirLista();
+        tabla[ hashCode(clave)].imprimirLista();
         System.out.print("]");
     }
 
@@ -50,7 +58,7 @@ public class HashListasEnlazadas {
         lista.agregar(100, "SpongeBob");    // hash -> 0
         lista.agregar(550, "Gary");         // hash -> 0
 
-        lista.get(100);     // imprime todos los valores en hash 100 -> 0
+        lista.get(101);     // imprime todos los valores en hash 100 -> 0
     }
 
 }
